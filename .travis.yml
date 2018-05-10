@@ -18,9 +18,9 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 
-branches:
-  only:
-    - master
+on:
+  branch: master
+  tags: true
 
 jobs:
   include:
