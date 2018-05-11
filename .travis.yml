@@ -18,6 +18,7 @@ on:
 after_script:
   - npm run coveralls
 
+
 jobs:
   include:
     - stage: "NPM publish"
@@ -29,3 +30,8 @@ jobs:
         skip_cleanup: true
         on:
           tags: true
+
+stages:
+  - test
+  - name: "NPM publish"
+    if: tag IS present
