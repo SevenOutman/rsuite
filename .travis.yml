@@ -19,10 +19,6 @@ on:
 after_script:
   - npm run coveralls
 
-cache:
-  directories:
-    - node_modules
-
 jobs:
   include:
     - stage: "NPM publish"
