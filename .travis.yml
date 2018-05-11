@@ -11,24 +11,25 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 
+on:
+  branch: master
+  tags: true
+
+after_script:
+  - npm run coveralls
+
 cache:
   directories:
     - node_modules
 
 jobs:
   include:
-    - stage: "Test"
-      branches:
-        only: master
-      after_script:
-        - npm run coveralls
-
     - stage: "NPM publish"
-      on:
-        tags: true
       script: skip
-      script: echo "Deploying to NPM ..."
       deploy:
         provider: npm
-        email: "simonguo.2009@gmail.com"
+        email: "leishenghao@126.com"
         api_key: $NPM_AUTH_TOKEN
+        skip_cleanup: true
+        on:
+          tags: true
