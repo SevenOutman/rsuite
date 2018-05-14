@@ -2,6 +2,10 @@ language: node_js
 node_js:
   - 8
 
+on:
+  branch: master
+  tags: true
+
 env:
   - BROWSER=ChromeCi
   - BROWSER=Firefox
@@ -11,15 +15,12 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
 
-on:
-  branch: master
-  tags: true
-
+script:
+  - npm test
+  - npm run coveralls
 
 jobs:
   include:
-    - stage: coverall
-      script: "npm run coveralls"
     - stage: "NPM publish"
       script: skip
       deploy:
@@ -32,6 +33,5 @@ jobs:
 
 stages:
   - test
-  - coverall
   - name: "NPM publish"
     if: tag IS present
