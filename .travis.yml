@@ -15,12 +15,11 @@ on:
   branch: master
   tags: true
 
-after_script:
-  - npm run coveralls
-
 
 jobs:
   include:
+    - stage: coverall
+      script: "npm run coveralls"
     - stage: "NPM publish"
       script: skip
       deploy:
@@ -33,5 +32,6 @@ jobs:
 
 stages:
   - test
+  - coverall
   - name: "NPM publish"
     if: tag IS present
