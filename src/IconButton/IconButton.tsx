@@ -3,9 +3,21 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 
-import Button from '../Button';
+import Button, { ButtonProps } from '../Button';
 import { prefix, defaultProps } from '../utils';
-import { IconButtonProps } from './IconButton.d';
+import { StandardProps } from '../@types/common';
+import { IconProps } from '../Icon';
+
+export interface IconButtonProps extends StandardProps, ButtonProps {
+  /** Set the icon */
+  icon?: React.ReactElement<IconProps>;
+
+  /** Set circle button */
+  circle?: boolean;
+
+  /** The placement of icon */
+  placement?: 'left' | 'right';
+}
 
 class IconButton extends React.Component<IconButtonProps> {
   static propTypes = {

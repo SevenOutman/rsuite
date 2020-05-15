@@ -1,19 +1,22 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
-import NavbarBody from './NavbarBody';
-import NavbarHeader from './NavbarHeader';
 import { prefix, defaultProps, createContext } from '../utils';
-import { NavbarProps } from './Navbar.d';
+import { StandardProps } from '../@types/common';
 
 export const NavbarContext = createContext(null);
+
+export interface NavbarProps extends StandardProps {
+  appearance?: 'default' | 'inverse' | 'subtle';
+  classPrefix?: string;
+  componentClass?: React.ElementType;
+}
 
 class Navbar extends React.Component<NavbarProps> {
   static propTypes = {
     classPrefix: PropTypes.string,
     className: PropTypes.string,
-    appearance: PropTypes.oneOf(['default', 'inverse', 'subtle']),
+    appearance: PropTypes.oneOf<NavbarProps['appearance']>(['default', 'inverse', 'subtle']),
     componentClass: PropTypes.elementType,
     hasChildContext: PropTypes.bool
   };
@@ -42,12 +45,7 @@ class Navbar extends React.Component<NavbarProps> {
   }
 }
 
-const EnhancedNavbar = defaultProps<NavbarProps>({
+export default defaultProps<NavbarProps>({
   componentClass: 'div',
   classPrefix: 'navbar'
 })(Navbar);
-
-setStatic('Header', NavbarHeader)(EnhancedNavbar);
-setStatic('Body', NavbarBody)(EnhancedNavbar);
-
-export default EnhancedNavbar;

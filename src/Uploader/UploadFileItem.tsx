@@ -5,7 +5,7 @@ import _ from 'lodash';
 
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { previewFile, defaultProps, getUnhandledProps, prefix } from '../utils';
-import { FileType } from './Uploader.d';
+import { FileType } from './typings';
 
 export interface UploadFileItemProps {
   file: FileType;

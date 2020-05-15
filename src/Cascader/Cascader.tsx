@@ -4,13 +4,12 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import shallowEqual from '../utils/shallowEqual';
 import { polyfill } from 'react-lifecycles-compat';
-import { findNodeOfTree } from '../utils/treeUtils';
+import { findNodeOfTree, flattenTree, getNodeParents } from '../utils/treeUtils';
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
-import DropdownMenu, { dropdownMenuPropTypes } from './DropdownMenu';
+import DropdownMenu from './DropdownMenu';
 import stringToObject from '../utils/stringToObject';
 import getSafeRegExpString from '../utils/getSafeRegExpString';
-import { flattenTree, getNodeParents } from '../utils/treeUtils';
 import { getDerivedStateForCascade } from './utils';
 import { defaultProps, prefix, getUnhandledProps, createChainedFunction } from '../utils';
 
@@ -23,13 +22,56 @@ import {
   createConcatChildrenFunction
 } from '../Picker';
 
-import { CascaderProps } from './Cascader.d';
 import { PLACEMENT } from '../constants';
-import { ItemDataType } from '../@types/common';
+import { FormControlPickerProps, ItemDataType } from '../@types/common';
 
-interface CascaderState {
+export interface CascaderProps<ValueType = any> extends FormControlPickerProps<ValueType> {
+  /** Sets the width of the menu */
+  menuWidth?: number;
+
+  /** Sets the height of the menu */
+  menuHeight?: number | string;
+
+  /** Custom render menu */
+  renderMenu?: (children: object[], menu: React.ReactNode, parentNode?: object) => React.ReactNode;
+
+  /** Custom render menu items */
+  renderMenuItem?: (itemLabel: React.ReactNode, item: object) => React.ReactNode;
+
+  /** Custom render selected items */
+  renderValue?: (
+    value: any,
+    activePaths: any[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
+
+  /** Called when the option is selected */
+  onSelect?: (
+    value: any,
+    activePaths: any[],
+    concat: (data: any, children: any) => any[],
+    event: React.SyntheticEvent<HTMLElement>
+  ) => void;
+
+  /** Called when clean */
+  onClean?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when searching */
+  onSearch?: (searchKeyword: string, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Whether dispaly search input box */
+  searchable?: boolean;
+
+  /** The menu is displayed directly when the component is initialized */
+  inline?: boolean;
+
+  /** When true, make the parent node selectable */
+  parentSelectable?: boolean;
+}
+
+interface CascaderState<ValueType = any> {
   selectNode?: any;
-  value?: any;
+  value?: ValueType;
   activePaths?: any[];
   items?: any[];
   tempActivePaths?: any[];
@@ -39,7 +81,10 @@ interface CascaderState {
   searchKeyword?: string;
 }
 
-class Cascader extends React.Component<CascaderProps, CascaderState> {
+class Cascader<ValueType = any> extends React.Component<
+  CascaderProps<ValueType>,
+  CascaderState<ValueType>
+> {
   static propTypes = {
     appearance: PropTypes.oneOf(['default', 'subtle']),
     classPrefix: PropTypes.string,
@@ -209,7 +254,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
     );
 
     /**
-     Determines whether the option is a leaf node, and if so, closes the picker.
+     * Determines whether the option is a leaf node, and if so, closes the picker.
      */
     if (isLeafNode) {
       this.handleCloseDropdown();
@@ -476,7 +521,7 @@ class Cascader extends React.Component<CascaderProps, CascaderState> {
 
     const menuProps = _.pick(
       this.props,
-      Object.keys(_.omit(dropdownMenuPropTypes, ['classPrefix']))
+      Object.keys(_.omit(DropdownMenu.propTypes, ['classPrefix']))
     );
 
     return (

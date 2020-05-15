@@ -1,12 +1,32 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
 
 import BreadcrumbItem from './BreadcrumbItem';
 import { defaultProps, prefix, getUnhandledProps } from '../utils';
 
-import { BreadcrumbProps } from './Breadcrumb.d';
+import { StandardProps } from '../@types/common';
+
+export interface BreadcrumbProps extends StandardProps {
+  /** Shorthand for primary content of the React.ReactNode */
+  separator?: React.ReactNode;
+
+  /** You can use a custom element for this component */
+  componentClass?: React.ElementType;
+
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /**
+   * Set the maximum number of breadcrumbs to display.
+   * When there are more than the maximum number,
+   * only the first and last will be shown, with an ellipsis in between.
+   */
+  maxItems?: number;
+
+  /** A function to be called when you are in the collapsed view and click the ellipsis. */
+  onExpand?: (event: React.MouseEvent) => void;
+}
 
 interface BreadcrumbState {
   ellipsis: boolean;
@@ -88,11 +108,7 @@ class Breadcrumb extends React.Component<BreadcrumbProps, BreadcrumbState> {
   }
 }
 
-const EnhancedBreadcrumb = defaultProps({
+export default defaultProps<BreadcrumbProps>({
   classPrefix: 'breadcrumb',
   componentClass: 'ol'
 })(Breadcrumb);
-
-setStatic('Item', BreadcrumbItem)(EnhancedBreadcrumb);
-
-export default EnhancedBreadcrumb;

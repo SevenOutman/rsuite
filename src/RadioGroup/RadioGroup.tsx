@@ -3,13 +3,37 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { defaultProps, getUnhandledProps, prefix, createContext } from '../utils';
-import { RadioGroupProps, RadioContextProps } from './RadioGroup.d';
+import { FormControlBaseProps, StandardProps } from '../@types/common';
+import { RadioProps } from '../Radio';
+
+export interface RadioContextProps {
+  inline?: boolean;
+  name?: string;
+  value?: any;
+  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+}
+
+export const RadioContext = createContext<RadioContextProps>({});
+
+export interface RadioGroupProps<V = any>
+  extends StandardProps,
+    FormControlBaseProps<RadioProps<V>['value']> {
+  /** A radio group can have different appearances */
+  appearance?: 'default' | 'picker';
+
+  /** Name to use for form */
+  name?: string;
+
+  /** Inline layout */
+  inline?: boolean;
+
+  /** Primary content */
+  children?: React.ReactNode;
+}
 
 interface RadioGroupState {
   value: any;
 }
-
-export const RadioContext = createContext<RadioContextProps>({});
 
 class RadioGroup extends React.Component<RadioGroupProps, RadioGroupState> {
   static propTypes = {

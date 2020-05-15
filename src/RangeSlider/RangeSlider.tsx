@@ -3,25 +3,27 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { getWidth, getHeight, getOffset } from 'dom-lib';
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
-import { RangeSliderProps, ValueType } from './RangeSlider.d';
-import { sliderPropTypes } from '../Slider/Slider';
+import Slider, { SliderProps } from '../Slider';
 import ProgressBar from '../Slider/ProgressBar';
 import Handle from '../Slider/Handle';
 import Graduated from '../Slider/Graduated';
 import { precisionMath, checkValue } from '../Slider/utils';
 
-interface RangeSliderState {
-  value: ValueType;
+export type RangeSliderProps<ValueType = number> = SliderProps<[ValueType, ValueType]>;
+
+interface RangeSliderState<ValueType = number> {
+  value: [ValueType, ValueType];
 }
 
-const rangeSliderPropTypes = {
-  ...sliderPropTypes,
-  value: PropTypes.arrayOf(PropTypes.number),
-  defaultValue: PropTypes.arrayOf(PropTypes.number)
-};
-
-class RangeSlider extends React.Component<RangeSliderProps, RangeSliderState> {
-  static propTypes = rangeSliderPropTypes;
+class RangeSlider<ValueType = number> extends React.Component<
+  RangeSliderProps<ValueType>,
+  RangeSliderState<ValueType>
+> {
+  static propTypes = {
+    ...Slider.propTypes,
+    value: PropTypes.arrayOf(PropTypes.number),
+    defaultValue: PropTypes.arrayOf(PropTypes.number)
+  };
   static defaultProps = {
     min: 0,
     max: 100,

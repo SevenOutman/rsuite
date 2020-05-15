@@ -2,8 +2,16 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultProps, prefix } from '../utils';
-import { SidebarProps } from './Sidebar.d';
 import { ContainerContext } from '../Container/Container';
+import { StandardProps } from '../@types/common';
+
+export interface SidebarProps extends StandardProps {
+  /** Width */
+  width?: number | string;
+
+  /** Sidebar can be collapsed */
+  collapsible?: boolean;
+}
 
 class Sidebar extends React.Component<SidebarProps> {
   static contextType = ContainerContext;

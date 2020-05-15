@@ -1,3 +1,1 @@
-import ErrorMessage from './ErrorMessage';
-
-export default ErrorMessage;
+export { default, ErrorMessageProps } from './ErrorMessage';

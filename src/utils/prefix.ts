@@ -10,7 +10,7 @@ export const getClassNamePrefix = () => {
 };
 export const defaultClassPrefix = (name: string) => `${getClassNamePrefix()}${name}`;
 
-export function prefix(pre: string, className: string | string[]): string {
+function prefix(pre: string, className: string | string[]): string {
   if (!pre || !className) {
     return '';
   }

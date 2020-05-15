@@ -3,7 +3,21 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import compose from 'recompose/compose';
 import { prefix, withStyleProps, defaultProps } from '../utils';
-import { TagProps } from './Tag.d';
+import { StandardProps } from '../@types/common';
+
+export interface TagProps extends StandardProps {
+  /** Whether to close */
+  closable?: boolean;
+
+  /** The content of the component */
+  children?: React.ReactNode;
+
+  /** You can use a custom element type for this component */
+  componentClass?: React.ElementType;
+
+  /** Click the callback function for the Close button */
+  onClose?: (event: React.MouseEvent<HTMLElement>) => void;
+}
 
 class Tag extends React.Component<TagProps> {
   static propTypes = {
@@ -41,7 +55,7 @@ class Tag extends React.Component<TagProps> {
   }
 }
 
-export default compose<any, TagProps>(
+export default compose<TagProps, TagProps>(
   withStyleProps<TagProps>({
     hasColor: true,
     defaultColor: 'default'

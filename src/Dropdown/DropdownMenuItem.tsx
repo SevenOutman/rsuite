@@ -6,10 +6,43 @@ import _ from 'lodash';
 import SafeAnchor from '../SafeAnchor';
 import { prefix, isOneOf, createChainedFunction, defaultProps, getUnhandledProps } from '../utils';
 import { SidenavContext } from '../Sidenav/Sidenav';
-import { DropdownMenuItemProps } from './DropdownMenuItem.d';
+import { StandardProps } from '../@types/common';
+import { IconProps } from '../Icon';
 
 interface DropdownMenuItemState {
   open?: boolean;
+}
+
+export interface DropdownMenuItemProps<T = any> extends StandardProps {
+  /** Active the current option */
+  active?: boolean;
+
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** You can use a custom element for this component */
+  componentClass?: React.ElementType;
+
+  /** Whether to display the divider */
+  divider?: boolean;
+
+  /** Disable the current option */
+  disabled?: boolean;
+
+  /** The value of the current option */
+  eventKey?: T;
+
+  /** Displays a custom panel */
+  panel?: boolean;
+
+  /** Set the icon */
+  icon?: React.ReactElement<IconProps>;
+
+  /** Select the callback function for the current option  */
+  onSelect?: (eventKey: T, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Custom rendering item */
+  renderItem?: (item: React.ReactNode) => React.ReactNode;
 }
 
 class DropdownMenuItem extends React.Component<DropdownMenuItemProps, DropdownMenuItemState> {

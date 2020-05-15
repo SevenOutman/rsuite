@@ -2,48 +2,52 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import Slide from '../Animation/Slide';
-import Modal from '../Modal/Modal';
+import Modal, { ModalProps } from '../Modal';
 
 import { prefix, defaultProps } from '../utils';
-import { DrawerProps } from './Drawer.d';
+import { TypeAttributes } from '../@types/common';
 
-class Drawer extends React.Component<DrawerProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
-    show: PropTypes.bool,
-    full: PropTypes.bool,
-    children: PropTypes.node,
-    className: PropTypes.string
-  };
-  static defaultProps = {
-    placement: 'right'
-  };
-
-  render() {
-    const { show, full, className, placement, classPrefix, ...props } = this.props;
-    const addPrefix: Function = prefix(classPrefix);
-    const classes = classNames(addPrefix(placement), className, {
-      [addPrefix('full')]: full
-    });
-
-    const animationProps = {
-      placement
-    };
-
-    return (
-      <Modal
-        {...props}
-        drawer
-        classPrefix={classPrefix}
-        className={classes}
-        show={show}
-        animation={Slide}
-        animationProps={animationProps}
-      />
-    );
-  }
+export interface DrawerProps extends ModalProps {
+  /** The placement of Drawer */
+  placement?: TypeAttributes.Placement4;
 }
+
+function Drawer({ show, full, className, placement, classPrefix, ...props }: DrawerProps) {
+  this.props;
+  const addPrefix = prefix(classPrefix);
+  const classes = classNames(addPrefix(placement), className, {
+    [addPrefix('full')]: full
+  });
+
+  const animationProps = {
+    placement
+  };
+
+  return (
+    <Modal
+      {...props}
+      drawer
+      classPrefix={classPrefix}
+      className={classes}
+      show={show}
+      animation={Slide}
+      animationProps={animationProps}
+    />
+  );
+}
+
+Drawer.propTypes = {
+  classPrefix: PropTypes.string,
+  placement: PropTypes.oneOf(['top', 'right', 'bottom', 'left']),
+  show: PropTypes.bool,
+  full: PropTypes.bool,
+  children: PropTypes.node,
+  className: PropTypes.string
+};
+
+Drawer.defaultProps = {
+  placement: 'right'
+};
 
 const EnhancedDrawer = defaultProps<DrawerProps>({
   classPrefix: 'drawer'

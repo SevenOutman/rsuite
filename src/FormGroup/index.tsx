@@ -1,3 +1,1 @@
-import FormGroup from './FormGroup';
-
-export default FormGroup;
+export { default, FormGroupProps, FormGroupContext } from './FormGroup';

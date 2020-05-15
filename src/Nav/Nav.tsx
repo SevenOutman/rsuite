@@ -1,15 +1,44 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
 import shallowEqual from '../utils/shallowEqual';
 
-import NavItem from './NavItem';
-import { prefix, getUnhandledProps, defaultProps, ReactChildren } from '../utils';
-import { getClassNamePrefix } from '../utils/prefix';
-import { NavbarContext } from '../Navbar/Navbar';
+import {
+  prefix,
+  getUnhandledProps,
+  getClassNamePrefix,
+  defaultProps,
+  ReactChildren
+} from '../utils';
+import { NavbarContext } from '../Navbar';
 import { SidenavContext } from '../Sidenav/Sidenav';
-import { NavProps } from './Nav.d';
+import { StandardProps } from '../@types/common';
+
+export interface NavProps<T = any> extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** sets appearance */
+  appearance?: 'default' | 'subtle' | 'tabs';
+
+  /** Reverse Direction of tabs/subtle */
+  reversed?: boolean;
+
+  /** Justified navigation */
+  justified?: boolean;
+
+  /** Vertical navigation */
+  vertical?: boolean;
+
+  /** appears on the right. */
+  pullRight?: boolean;
+
+  /** Active key, corresponding to eventkey in <Nav.item>. */
+  activeKey?: T;
+
+  /** Callback function triggered after selection */
+  onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
+}
 
 class Nav extends React.Component<NavProps> {
   static contextType = SidenavContext;
@@ -66,7 +95,8 @@ class Nav extends React.Component<NavProps> {
           hasTooltip: sidenav && !expanded,
           active: typeof activeKey === 'undefined' ? active : shallowEqual(activeKey, eventKey)
         };
-      } else if (~displayName?.indexOf('(Dropdown)')) {
+      }
+      if (~displayName?.indexOf('(Dropdown)')) {
         return {
           ...rest,
           onSelect,
@@ -104,10 +134,6 @@ class Nav extends React.Component<NavProps> {
   }
 }
 
-const EnhancedNav = defaultProps<NavProps>({
+export default defaultProps<NavProps>({
   classPrefix: 'nav'
 })(Nav);
-
-setStatic('Item', NavItem)(EnhancedNav);
-
-export default EnhancedNav;

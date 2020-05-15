@@ -4,7 +4,7 @@ import shallowEqualArray from '../utils/shallowEqualArray';
 import { Node } from '../CheckTreePicker/utils';
 import { TREE_NODE_DROP_POSITION } from '../constants';
 import { TreePickerProps } from '../TreePicker/TreePicker.d';
-import { CheckTreePickerProps } from '../CheckTreePicker/CheckTreePicker.d';
+import { CheckTreePickerProps } from '../CheckTreePicker';
 
 const SEARCH_BAR_HEIGHT = 48;
 const MENU_PADDING = 12;

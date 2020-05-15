@@ -3,21 +3,62 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { prefix, defaultProps, getUnhandledProps } from '../utils';
-import { ProgressCircleProps } from './ProgressCircle.d';
+import { StandardProps } from '../@types/common';
+
+export interface ProgressCircleProps extends StandardProps {
+  /** Line color */
+  strokeColor?: string;
+
+  /** The end of different types of open paths */
+  strokeLinecap?: 'butt' | 'round' | 'square';
+
+  /** Tail color */
+  trailColor?: string;
+
+  /** Percent of progress */
+  percent?: number;
+
+  /** Line width */
+  strokeWidth?: number;
+
+  /** Tail width */
+  trailWidth?: number;
+
+  /** Circular progress bar degree */
+  gapDegree?: number;
+
+  /** Circular progress bar Notch position */
+  gapPosition?: 'top' | 'bottom' | 'left' | 'right';
+
+  /** Show text */
+  showInfo?: boolean;
+
+  /** Progress status */
+  status?: 'success' | 'fail' | 'active';
+}
 
 class ProgressCircle extends React.Component<ProgressCircleProps> {
   static propTypes = {
     className: PropTypes.string,
     strokeColor: PropTypes.string,
-    strokeLinecap: PropTypes.oneOf(['butt', 'round', 'square']),
+    strokeLinecap: PropTypes.oneOf<ProgressCircleProps['strokeLinecap']>([
+      'butt',
+      'round',
+      'square'
+    ]),
     trailColor: PropTypes.string,
     percent: PropTypes.number,
     strokeWidth: PropTypes.number,
     trailWidth: PropTypes.number,
     gapDegree: PropTypes.number,
-    gapPosition: PropTypes.oneOf(['top', 'bottom', 'left', 'right']),
+    gapPosition: PropTypes.oneOf<ProgressCircleProps['gapPosition']>([
+      'top',
+      'bottom',
+      'left',
+      'right'
+    ]),
     showInfo: PropTypes.bool,
-    status: PropTypes.oneOf(['success', 'fail', 'active']),
+    status: PropTypes.oneOf<ProgressCircleProps['status']>(['success', 'fail', 'active']),
     classPrefix: PropTypes.string
   };
 

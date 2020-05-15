@@ -3,8 +3,19 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
 import { prefix, defaultProps } from '../utils';
-import { TooltipProps } from './Tooltip.d';
 import { overlayProps } from '../Whisper/Whisper';
+import { StandardProps, TypeAttributes } from '../@types/common';
+
+export interface TooltipProps extends StandardProps {
+  /** Dispaly placement */
+  placement?: TypeAttributes.Placement;
+
+  /** Wheather visible */
+  visible?: boolean;
+
+  /** Primary content */
+  children?: React.ReactNode;
+}
 
 class Tooltip extends React.Component<TooltipProps> {
   static propTypes = {

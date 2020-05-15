@@ -1,9 +1,20 @@
 import * as React from 'react';
 import CheckTreePicker from '../CheckTreePicker';
+import { TreeBaseProps } from '../Tree/TreeBase';
+import { FormControlPickerProps } from '../@types/common';
 
-import { CheckTreeProps } from './CheckTree.d';
+export interface CheckTreeProps extends TreeBaseProps, FormControlPickerProps {
+  /** The height of Dropdown */
+  height?: number;
 
-const CheckTree = React.forwardRef((props: CheckTreeProps, ref: React.Ref<any>) => (
+  /** Tree node cascade */
+  cascade?: boolean;
+
+  /** Whether using virtualized list */
+  virtualized?: boolean;
+}
+
+const CheckTree = React.forwardRef<any, CheckTreeProps>((props, ref) => (
   <CheckTreePicker ref={ref} inline {...props} />
 ));
 

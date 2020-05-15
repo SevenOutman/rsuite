@@ -2,19 +2,22 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultProps } from '../utils';
-import { ContentProps } from './Content.d';
+import { StandardProps } from '../@types/common';
 
-class Content extends React.Component<ContentProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string
-  };
-  render() {
-    const { className, classPrefix, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
-    return <div {...props} className={classes} />;
-  }
+export interface ContentProps extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
 }
+
+function Content({ className, classPrefix, ...props }: ContentProps) {
+  const classes = classNames(classPrefix, className);
+  return <div {...props} className={classes} />;
+}
+
+Content.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string
+};
 
 export default defaultProps<ContentProps>({
   classPrefix: 'content'

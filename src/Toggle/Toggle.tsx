@@ -4,7 +4,27 @@ import classNames from 'classnames';
 import compose from 'recompose/compose';
 
 import { prefix, withStyleProps, defaultProps, getUnhandledProps } from '../utils';
-import { ToggleProps } from './Toggle.d';
+import { StandardProps } from '../@types/common';
+
+export interface ToggleProps extends StandardProps {
+  /** Wheather to disabled toggle */
+  disabled?: boolean;
+
+  /** Checked（Controlled) */
+  checked?: boolean;
+
+  /** Default checked */
+  defaultChecked?: boolean;
+
+  /** Checked display content */
+  checkedChildren?: React.ReactNode;
+
+  /** Unselected display content */
+  unCheckedChildren?: React.ReactNode;
+
+  /** Callback function when state changes */
+  onChange?: (checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+}
 
 interface ToggleState {
   checked?: boolean;
@@ -82,7 +102,7 @@ class Toggle extends React.Component<ToggleProps, ToggleState> {
   }
 }
 
-export default compose<any, ToggleProps>(
+export default compose<ToggleProps, ToggleProps>(
   withStyleProps<ToggleProps>({
     hasSize: true
   }),

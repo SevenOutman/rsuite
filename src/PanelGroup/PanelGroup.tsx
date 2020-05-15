@@ -3,8 +3,28 @@ import PropTypes from 'prop-types';
 import _ from 'lodash';
 import classNames from 'classnames';
 import { ReactChildren, getUnhandledProps, defaultProps, prefix } from '../utils';
-import { PanelGroupProps } from './PanelGroup.d';
-import { PanelProps } from '../Panel/Panel.d';
+import { PanelProps } from '../Panel';
+import { StandardProps } from '../@types/common';
+
+export interface PanelGroupProps<T = any> extends StandardProps {
+  /** Whether it is a collapsible panel. */
+  accordion?: boolean;
+
+  /** Expand the Panel, corresponding to the 'Panel' of 'eventkey' */
+  activeKey?: T;
+
+  /** Show border */
+  bordered?: boolean;
+
+  /** The default expansion panel. */
+  defaultActiveKey?: T;
+
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** Toggles the callback function for the expand panel */
+  onSelect?: (eventKey: T, event: React.SyntheticEvent<any>) => void;
+}
 
 interface PanelGroupState {
   activeKey?: boolean;

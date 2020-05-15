@@ -4,9 +4,14 @@ import classNames from 'classnames';
 import _ from 'lodash';
 import compose from 'recompose/compose';
 import { withStyleProps, defaultProps, prefix, createContext } from '../utils';
-import { FormGroupProps } from './FormGroup.d';
+import { StandardProps } from '../@types/common';
 
 export const FormGroupContext = createContext(null);
+
+export interface FormGroupProps extends StandardProps {
+  /** Sets id for controlled component   */
+  controlId?: string;
+}
 
 class FormGroup extends React.Component<FormGroupProps> {
   static propTypes = {

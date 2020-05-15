@@ -4,8 +4,22 @@ import { setDisplayName } from 'recompose';
 import classNames from 'classnames';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import ListContext from './ListContext';
-import { ListItemProps } from './ListItem.d';
 import { ManagerRef } from './Manager';
+import { StandardProps } from '../@types/common';
+
+export interface ListItemProps extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /* Index of list item, for sort */
+  index?: number;
+
+  /* Symbol of collection*/
+  collection?: number | string;
+
+  /* disable drag */
+  disabled?: boolean;
+}
 
 class ListItem extends React.Component<ListItemProps> {
   static defaultProps = {

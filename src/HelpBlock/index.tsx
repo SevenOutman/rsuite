@@ -1,3 +1,1 @@
-import HelpBlock from './HelpBlock';
-
-export default HelpBlock;
+export { default, HelpBlockProps } from './HelpBlock';

@@ -5,10 +5,36 @@ import Icon from '../Icon';
 
 import { STATUS_ICON_NAMES, STATUS } from '../constants';
 import { prefix, defaultProps } from '../utils';
-import { MessageProps } from './Message.d';
+import { StandardProps, TypeAttributes } from '../@types/common';
 
 interface MessageState {
   display: 'show' | 'hide' | 'hiding';
+}
+
+export interface MessageProps extends StandardProps {
+  /** The type of the message box. */
+  type?: TypeAttributes.Status;
+
+  /** Whether it is possible to close the message box */
+  closable?: boolean;
+
+  /** Closes the prompt text on the button */
+  closeLabel?: string;
+
+  /** The title of the message  */
+  title?: React.ReactNode;
+
+  /** The description information for the message */
+  description?: React.ReactNode;
+
+  /** Whether to display an icon */
+  showIcon?: boolean;
+
+  /** Fill the container */
+  full?: boolean;
+
+  /** Called after the message is closed  */
+  onClose?: () => void;
 }
 
 class Message extends React.Component<MessageProps, MessageState> {

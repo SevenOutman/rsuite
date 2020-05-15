@@ -2,7 +2,24 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
-import { PlaceholderGridProps } from './PlaceholderGrid.d';
+import { StandardProps } from '../@types/common';
+
+export interface PlaceholderGridProps extends StandardProps {
+  /* number of rows */
+  rows?: number;
+
+  /* height of rows */
+  rowHeight?: number;
+
+  /* margin of rows */
+  rowMargin?: number;
+
+  /* number of columns */
+  columns?: number;
+
+  /** Placeholder status */
+  active?: boolean;
+}
 
 class PlaceholderGrid extends React.Component<PlaceholderGridProps> {
   static propTypes = {

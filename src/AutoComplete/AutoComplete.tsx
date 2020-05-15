@@ -2,15 +2,66 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import setStatic from 'recompose/setStatic';
 import shallowEqual from '../utils/shallowEqual';
 import Input from '../Input';
 import AutoCompleteItem from './AutoCompleteItem';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
 import { PickerToggleTrigger, onMenuKeyDown, MenuWrapper } from '../Picker';
-import { AutoCompleteProps } from './AutoComplete.d';
-import { ItemDataType } from '../@types/common';
+import { ItemDataType, StandardProps, TypeAttributes } from '../@types/common';
 import { PLACEMENT } from '../constants';
+
+export interface AutoCompleteProps extends StandardProps {
+  /** The data of component */
+  data?: any[];
+
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** Whether disabled select */
+  disabled?: boolean;
+
+  /** Initial value */
+  defaultValue?: string;
+
+  /** Current value of the input. Creates a controlled component */
+  value?: string;
+
+  /** Additional classes for menu */
+  menuClassName?: string;
+
+  /** The placement of component */
+  placement?: TypeAttributes.Placement;
+
+  /** When set to false, the Enter key selection function is invalid */
+  selectOnEnter?: boolean;
+
+  /** Called when a option is selected */
+  onSelect?: (item: ItemDataType, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when select an option or input value change, or value of input is changed */
+  onChange?: (value: string, event: React.SyntheticEvent) => void;
+
+  /** Called on focus */
+  onFocus?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called on blur */
+  onBlur?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called on menu focus */
+  onMenuFocus?: (focusItemValue: any, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called on open */
+  onOpen?: () => void;
+
+  /** Called on close */
+  onClose?: () => void;
+
+  /** Called on hide  */
+  onHide?: () => void;
+
+  /** Custom selected option */
+  renderItem?: (itemData: ItemDataType) => React.ReactNode;
+}
 
 interface State {
   value: string;
@@ -299,10 +350,6 @@ class AutoComplete extends React.Component<AutoCompleteProps, State> {
   }
 }
 
-const EnhancedAutoComplete = defaultProps<AutoCompleteProps>({
+export default defaultProps<AutoCompleteProps>({
   classPrefix: 'auto-complete'
 })(AutoComplete);
-
-setStatic('Item', AutoCompleteItem)(AutoComplete);
-
-export default EnhancedAutoComplete;

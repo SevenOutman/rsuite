@@ -2,7 +2,12 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultProps } from '../utils';
-import { TagGroupProps } from './TagGroup.d';
+import { StandardProps } from '../@types/common';
+
+export interface TagGroupProps extends StandardProps {
+  /** The content of the component */
+  children?: React.ReactNode;
+}
 
 class TagGroup extends React.Component<TagGroupProps> {
   static propTypes = {

@@ -7,17 +7,48 @@ import Input from '../Input';
 import ErrorMessage from '../ErrorMessage';
 import { getUnhandledProps, defaultProps, prefix } from '../utils';
 import { PLACEMENT_8 } from '../constants';
-import { FormControlProps } from './FormControl.d';
-import FormContext, {
-  FormValueContext,
-  FormErrorContext,
-  FormPlaintextContext
-} from '../Form/FormContext';
+import { FormContext, FormValueContext, FormErrorContext, FormPlaintextContext } from '../Form';
+import { StandardProps, TypeAttributes } from '../@types/common';
 
 interface FormControlState {
   checkResult?: any;
   value?: any;
 }
+
+export type FormControlProps<P = {}, ValueType = any> = StandardProps & {
+  /** Proxied components */
+  accepter?: React.ComponentType<P>;
+
+  /** Callback fired when data changing */
+  onChange?: (value: ValueType, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** The name of form-control */
+  name?: string;
+
+  /** The data validation trigger type, and it wiill overrides the setting on <Form> */
+  checkTrigger?: TypeAttributes.CheckTrigger;
+
+  /** Show error messages */
+  errorMessage?: React.ReactNode;
+
+  /** The placement of error messages */
+  errorPlacement?: TypeAttributes.Placement8;
+
+  /** Make the control readonly */
+  readOnly?: boolean;
+
+  /** Render the control as plain text */
+  plaintext?: boolean;
+
+  /** Plain text when the control has no value */
+  plaintextDefaultValue?: React.ReactNode;
+
+  /** Value */
+  value?: ValueType;
+
+  /** Asynchronous check value */
+  checkAsync?: boolean;
+} & P;
 
 class FormControl extends React.Component<FormControlProps, FormControlState> {
   static contextType = FormContext;
@@ -237,8 +268,6 @@ class FormControlWrapper extends React.Component<any> {
   }
 }
 
-const EnhancedFormControl = defaultProps<FormControlProps>({
+export default defaultProps<FormControlProps>({
   classPrefix: 'form-control'
 })(FormControlWrapper);
-
-export default EnhancedFormControl;

@@ -19,7 +19,9 @@ import {
 } from '../utils';
 import { SidenavContext } from '../Sidenav/Sidenav';
 import { PLACEMENT_8 } from '../constants';
-import { DropdownProps } from './Dropdown.d';
+import { StandardProps, TypeAttributes } from '../@types/common';
+import { IconProps } from '../Icon';
+import { DropdownTrigger } from './typings';
 
 interface DropdownState {
   title?: React.ReactNode;
@@ -30,6 +32,64 @@ interface SidenavContextType {
   openKeys: any[];
   sidenav: boolean;
   expanded: boolean;
+}
+
+export interface DropdownProps<T = any> extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** Define the title as a submenu */
+  title?: React.ReactNode;
+
+  /** Set the icon */
+  icon?: React.ReactElement<IconProps>;
+
+  /** The option to activate the state, corresponding to the eventkey in the Dropdown.item */
+  activeKey?: T;
+
+  /** Triggering events */
+  trigger?: DropdownTrigger | DropdownTrigger[];
+
+  /** The placement of Menu */
+  placement?: TypeAttributes.Placement8;
+
+  /** Whether or not component is disabled */
+  disabled?: boolean;
+
+  /** The callback function that the menu closes */
+  onClose?: () => void;
+
+  /** Menu Pop-up callback function */
+  onOpen?: () => void;
+
+  /** Callback function for menu state switching */
+  onToggle?: (open?: boolean) => void;
+
+  /** Selected callback function */
+  onSelect?: (eventKey: T, event: React.MouseEvent<HTMLElement>) => void;
+
+  /** The style of the menu */
+  menuStyle?: object;
+
+  /** A css class to apply to the Toggle DOM node */
+  toggleClassName?: string;
+
+  /** Custom title */
+  renderTitle?: (children?: React.ReactNode) => React.ReactNode;
+
+  /** The value of the current option */
+  eventKey?: T;
+
+  /** You can use a custom element type for this component */
+  componentClass?: React.ElementType;
+
+  /** You can use a custom element type for this toggle component */
+  toggleComponentClass?: React.ElementType;
+
+  /** No caret variation */
+  noCaret?: boolean;
+
+  open?: boolean;
 }
 
 class Dropdown extends React.Component<DropdownProps, DropdownState> {
@@ -245,7 +305,7 @@ class Dropdown extends React.Component<DropdownProps, DropdownState> {
   }
 }
 
-const EnhancedDropdown = defaultProps({
+const EnhancedDropdown = defaultProps<DropdownProps>({
   componentClass: 'div',
   classPrefix: 'dropdown'
 })(Dropdown);

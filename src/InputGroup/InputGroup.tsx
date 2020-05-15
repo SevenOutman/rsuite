@@ -1,14 +1,22 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import setStatic from 'recompose/setStatic';
 import compose from 'recompose/compose';
-import InputGroupAddon from './InputGroupAddon';
-import InputGroupButton from './InputGroupButton';
 import { prefix, withStyleProps, defaultProps, createContext } from '../utils';
-import { InputGroupProps } from './InputGroup.d';
+import { StandardProps } from '../@types/common';
 
 export const InputGroupContext = createContext(null);
+
+export interface InputGroupProps extends StandardProps {
+  /** Sets the composition content internally */
+  inside?: boolean;
+
+  /** An Input group can show that it is disabled */
+  disabled?: boolean;
+
+  /** Primary content */
+  children?: React.ReactNode;
+}
 
 interface InputGroupState {
   focus?: boolean;
@@ -72,7 +80,7 @@ class InputGroup extends React.Component<InputGroupProps, InputGroupState> {
   }
 }
 
-const EnhancedInputGroup = compose<any, InputGroupProps>(
+export default compose<any, InputGroupProps>(
   withStyleProps<InputGroupProps>({
     hasSize: true
   }),
@@ -80,8 +88,3 @@ const EnhancedInputGroup = compose<any, InputGroupProps>(
     classPrefix: 'input-group'
   })
 )(InputGroup);
-
-setStatic('Addon', InputGroupAddon)(EnhancedInputGroup);
-setStatic('Button', InputGroupButton)(EnhancedInputGroup);
-
-export default EnhancedInputGroup;

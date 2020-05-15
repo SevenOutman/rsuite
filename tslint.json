@@ -3,6 +3,7 @@
   "extends": ["dtslint/dtslint.json"],
   "jsRules": {},
   "rules": {
+    "no-default-import": false,
     "file-name-casing": false,
     "no-unnecessary-generics": false
   }

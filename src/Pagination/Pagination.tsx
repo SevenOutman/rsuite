@@ -8,7 +8,42 @@ import Icon from '../Icon';
 
 import { withStyleProps, defaultProps, getUnhandledProps } from '../utils';
 import { PAGINATION_ICON_NAMES } from '../constants';
-import { PaginationProps } from './Pagination.d';
+import { StandardProps } from '../@types/common';
+
+export interface PaginationProps extends StandardProps {
+  /** Current page number */
+  activePage?: number;
+
+  /** Page buttons display the maximum number of */
+  maxButtons?: number;
+
+  /** Displays the first page */
+  first?: boolean | React.ReactNode;
+
+  /** Displays the last page */
+  last?: boolean | React.ReactNode;
+
+  /** Displays the prev page */
+  prev?: boolean | React.ReactNode;
+
+  /** Displays the next page */
+  next?: boolean | React.ReactNode;
+
+  /** Disabled component */
+  disabled?: boolean | ((eventKey: any) => boolean);
+
+  /** Show border paging buttons 1 and pages */
+  boundaryLinks?: boolean;
+
+  /** Displays the ellipsis */
+  ellipsis?: boolean | React.ReactNode;
+
+  /** Customizes the element type for the component */
+  buttonComponentClass?: React.ElementType;
+
+  /** callback function for pagination clicked */
+  onSelect?: (eventKey: any, event: React.MouseEvent) => void;
+}
 
 class Pagination extends React.Component<PaginationProps> {
   static propTypes = {

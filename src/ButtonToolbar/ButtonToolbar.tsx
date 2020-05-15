@@ -3,20 +3,27 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { defaultProps } from '../utils';
-import { ButtonToolbarProps } from './ButtonToolbar.d';
+import { StandardProps } from '../@types/common';
 
-class ButtonToolbar extends React.Component<ButtonToolbarProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    classPrefix: PropTypes.string
-  };
-  render() {
-    const { className, classPrefix, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
-    return <div role="toolbar" className={classes} {...props} />;
-  }
+export interface ButtonToolbarProps extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
 }
 
-export default defaultProps({
+function ButtonToolbar({ className, classPrefix, ...props }: ButtonToolbarProps) {
+  const classes = classNames(classPrefix, className);
+  return <div role="toolbar" className={classes} {...props} />;
+}
+
+ButtonToolbar.propTypes = {
+  className: PropTypes.string,
+  classPrefix: PropTypes.string
+};
+
+ButtonToolbar.defaultProps = {
+  classPrefix: 'btn-toolbar'
+};
+
+export default defaultProps<ButtonToolbarProps>({
   classPrefix: 'btn-toolbar'
 })(ButtonToolbar);

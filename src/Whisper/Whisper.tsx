@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import OverlayTrigger from '../Overlay/OverlayTrigger';
 import { createChainedFunction, placementPolyfill, refType } from '../utils';
 import IntlContext from '../IntlProvider/IntlContext';
-import { WhisperProps } from './Whisper.d';
+import { TriggerProps } from '../Overlay/OverlayTrigger.d';
+import { TooltipProps } from '../Tooltip';
+import { PopoverProps } from '../Popover';
 
 export const overlayProps = [
   'placement',
@@ -13,6 +15,13 @@ export const overlayProps = [
   'positionLeft',
   'positionTop'
 ];
+
+export interface WhisperProps extends TriggerProps {
+  /** display element */
+  speaker?:
+    | React.ReactElement<TooltipProps | PopoverProps>
+    | ((props: any, ref: React.RefObject<any>) => React.ReactElement);
+}
 
 class Whisper extends React.Component<WhisperProps> {
   static propTypes = {

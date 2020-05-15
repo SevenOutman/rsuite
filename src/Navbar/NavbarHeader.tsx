@@ -8,18 +8,16 @@ export interface NavbarHeaderProps {
   className?: string;
 }
 
-class NavbarHeader extends React.Component<NavbarHeaderProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string
-  };
-  render() {
-    const { className, classPrefix, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
+function NavbarHeader({ className, classPrefix, ...props }: NavbarHeaderProps) {
+  const classes = classNames(classPrefix, className);
 
-    return <div {...props} className={classes} />;
-  }
+  return <div {...props} className={classes} />;
 }
+
+NavbarHeader.propTypes = {
+  classPrefix: PropTypes.string,
+  className: PropTypes.string
+};
 
 export default defaultProps<NavbarHeaderProps>({
   classPrefix: 'navbar-header'

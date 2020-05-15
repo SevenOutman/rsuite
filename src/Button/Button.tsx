@@ -6,72 +6,109 @@ import SafeAnchor from '../SafeAnchor';
 import Ripple from '../Ripple';
 
 import { withStyleProps, getUnhandledProps, defaultProps, prefix } from '../utils';
-import { ButtonProps } from './Button.d';
+import { StandardProps, TypeAttributes } from '../@types/common';
 
-class Button extends React.Component<ButtonProps> {
-  static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'primary', 'link', 'subtle', 'ghost']),
-    active: PropTypes.bool,
-    componentClass: PropTypes.elementType,
-    children: PropTypes.node,
-    block: PropTypes.bool,
-    loading: PropTypes.bool,
-    disabled: PropTypes.bool
-  };
+export interface ButtonProps extends StandardProps {
+  /** A button can have different appearances. */
+  appearance?: TypeAttributes.Appearance;
 
-  static defaultProps = {
-    appearance: 'default'
-  };
+  /** A button can show it is currently the active user selection */
+  active?: boolean;
 
-  render() {
-    const {
-      active,
-      disabled,
-      loading,
-      block,
-      className,
-      classPrefix,
-      appearance,
-      children,
-      componentClass: Component,
-      ...props
-    } = this.props;
+  /** You can use a custom element for this component */
+  componentClass?: React.ElementType;
 
-    const unhandled = getUnhandledProps(Button, props);
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(classPrefix, addPrefix(appearance), className, {
-      [addPrefix('active')]: active,
-      [addPrefix('disabled')]: disabled,
-      [addPrefix('loading')]: loading,
-      [addPrefix('block')]: block
-    });
-    const ripple = appearance !== 'link' && appearance !== 'ghost' ? <Ripple /> : null;
-    const spin = <span className={addPrefix('spin')} />;
+  /** A button can have different sizes */
+  size?: TypeAttributes.Size;
 
-    if (Component === 'button') {
-      if (unhandled.href) {
-        return (
-          <SafeAnchor {...unhandled} aria-disabled={disabled} className={classes}>
-            {loading && spin}
-            {children}
-            {ripple}
-          </SafeAnchor>
-        );
-      }
-      unhandled.type = unhandled.type || 'button';
-    }
+  /** A button can have different colors */
+  color?: TypeAttributes.Color;
 
-    return (
-      <Component {...unhandled} disabled={disabled} className={classes}>
-        {loading && spin}
-        {children}
-        {ripple}
-      </Component>
-    );
-  }
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** Format button to appear inside a content bloc */
+  block?: boolean;
+
+  /** Providing a `href` will render an `<a>` element, _styled_ as a button */
+  href?: string;
+
+  /** A button can show a loading indicator */
+  loading?: boolean;
+
+  /** A button can show it is currently unable to be interacted with */
+  disabled?: boolean;
+
+  /** Called when the button is clicked. */
+  onClick?: (event: React.SyntheticEvent) => void;
 }
 
-export default compose<any, ButtonProps>(
+function Button({
+  active,
+  disabled,
+  loading,
+  block,
+  className,
+  classPrefix,
+  appearance,
+  children,
+  componentClass: Component,
+  ...props
+}: ButtonProps) {
+  const unhandled = getUnhandledProps(Button, props);
+  const addPrefix = prefix(classPrefix);
+  const classes = classNames(classPrefix, addPrefix(appearance), className, {
+    [addPrefix('active')]: active,
+    [addPrefix('disabled')]: disabled,
+    [addPrefix('loading')]: loading,
+    [addPrefix('block')]: block
+  });
+  const ripple = appearance !== 'link' && appearance !== 'ghost' ? <Ripple /> : null;
+  const spin = <span className={addPrefix('spin')} />;
+
+  if (Component === 'button') {
+    if (unhandled.href) {
+      return (
+        <SafeAnchor {...unhandled} aria-disabled={disabled} className={classes}>
+          {loading && spin}
+          {children}
+          {ripple}
+        </SafeAnchor>
+      );
+    }
+    unhandled.type = unhandled.type || 'button';
+  }
+
+  return (
+    <Component {...unhandled} disabled={disabled} className={classes}>
+      {loading && spin}
+      {children}
+      {ripple}
+    </Component>
+  );
+}
+
+Button.propTypes = {
+  appearance: PropTypes.oneOf<ButtonProps['appearance']>([
+    'default',
+    'primary',
+    'link',
+    'subtle',
+    'ghost'
+  ]),
+  active: PropTypes.bool,
+  componentClass: PropTypes.elementType,
+  children: PropTypes.node,
+  block: PropTypes.bool,
+  loading: PropTypes.bool,
+  disabled: PropTypes.bool
+};
+
+Button.defaultProps = {
+  appearance: 'default'
+};
+
+export default compose<ButtonProps, ButtonProps>(
   withStyleProps<ButtonProps>({
     hasSize: true,
     hasColor: true

@@ -8,7 +8,7 @@ import createChainedFunction from '../utils/createChainedFunction';
 import isOneOf from '../utils/isOneOf';
 import getDOMNode from '../utils/getDOMNode';
 import Portal from '../Portal';
-import { OverlayTriggerProps } from './OverlayTrigger.d';
+import { TriggerProps as OverlayTriggerPropsBase } from './typings';
 
 function isNullOrUndefined(value: any): boolean {
   return value === null || typeof value === 'undefined';
@@ -31,6 +31,21 @@ interface TriggerProps {
   onBlur?: React.MouseEventHandler;
   onClick?: React.MouseEventHandler;
   onFocus?: React.MouseEventHandler;
+}
+
+export interface OverlayTriggerProps extends OverlayTriggerPropsBase {
+  containerPadding?: number;
+  show?: boolean;
+  rootClose?: boolean;
+  onHide?: () => void;
+  transition?: React.ElementType;
+  animation?: React.ElementType | boolean;
+  delay?: number;
+  delayShow?: number;
+  delayHide?: number;
+  defaultOpen?: boolean;
+  open?: boolean;
+  disabled?: boolean;
 }
 
 interface OverlayTriggerState {

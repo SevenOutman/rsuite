@@ -9,23 +9,21 @@ export interface NavbarBodyProps {
   children?: React.ReactNode;
 }
 
-class NavbarBody extends React.Component<NavbarBodyProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node
-  };
-  render() {
-    const { children, classPrefix, className, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
+function NavbarBody({ children, classPrefix, className, ...props }: NavbarBodyProps) {
+  const classes = classNames(classPrefix, className);
 
-    return (
-      <div {...props} className={classes}>
-        {children}
-      </div>
-    );
-  }
+  return (
+    <div {...props} className={classes}>
+      {children}
+    </div>
+  );
 }
+
+NavbarBody.propTypes = {
+  classPrefix: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node
+};
 
 export default defaultProps<NavbarBodyProps>({
   classPrefix: 'navbar-body'

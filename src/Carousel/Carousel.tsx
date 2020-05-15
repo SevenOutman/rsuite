@@ -5,11 +5,31 @@ import { prefix, defaultProps, getUnhandledProps } from '../utils';
 import Transition from '../Animation/Transition';
 import IntlContext from '../IntlProvider/IntlContext';
 import ReactChildren from '../utils/ReactChildren';
-import { CarouselProps } from './Carousel.d';
+import { StandardProps } from '../@types/common';
 
 interface CarouselState {
   active: number;
   last?: boolean;
+}
+
+export interface CarouselProps extends StandardProps {
+  /** You can use a custom element for this component */
+  componentClass?: React.ElementType;
+
+  /** Autoplay element */
+  autoplay?: boolean;
+
+  /** Auto play interval */
+  autoplayInterval?: number;
+
+  /** Button placement */
+  placement: 'top' | 'bottom' | 'left' | 'right';
+
+  /** Button shape */
+  shape: 'dot' | 'bar';
+
+  /** Carousel elements */
+  children: React.ReactChildren;
 }
 
 class Carousel extends React.Component<CarouselProps, CarouselState> {

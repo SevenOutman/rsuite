@@ -4,8 +4,8 @@ import classNames from 'classnames';
 
 import Ripple from '../Ripple';
 import Button from '../Button';
+import { IconProps } from '../Icon';
 import { prefix, defaultProps } from '../utils';
-import { IconProps } from '../Icon/Icon.d';
 
 export interface DorpdownToggleProps {
   className?: string;

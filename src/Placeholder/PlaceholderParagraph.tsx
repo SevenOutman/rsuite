@@ -2,7 +2,24 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { prefix, defaultProps, getUnhandledProps } from '../utils';
-import { PlaceholderParagraphProps } from './PlaceholderParagraph.d';
+import { StandardProps } from '../@types/common';
+
+export interface PlaceholderParagraphProps extends StandardProps {
+  /* number of rows */
+  rows?: number;
+
+  /* height of rows */
+  rowHeight?: number;
+
+  /* margin of rows */
+  rowMargin?: number;
+
+  /* show graph */
+  graph?: boolean | 'circle' | 'square' | 'image';
+
+  /** Placeholder status */
+  active?: boolean;
+}
 
 class PlaceholderParagraph extends React.Component<PlaceholderParagraphProps> {
   static propTypes = {
@@ -68,6 +85,6 @@ class PlaceholderParagraph extends React.Component<PlaceholderParagraphProps> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<PlaceholderParagraphProps>({
   classPrefix: 'placeholder'
 })(PlaceholderParagraph);

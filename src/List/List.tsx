@@ -14,10 +14,11 @@ import {
 } from './utils';
 import { prefix, defaultProps, getUnhandledProps } from '../utils';
 import ListItem from './ListItem';
-import { ListProps } from './List.d';
 import Manager from './Manager';
 import AutoScroller from './AutoScroller';
 import ListContext from './ListContext';
+import { StandardProps } from '../@types/common';
+import { PayloadCallback } from './typings';
 
 const NodeType = {
   Canvas: 'CANVAS',
@@ -47,6 +48,44 @@ export interface Position {
   left?: number;
   bottom?: number;
   right?: number;
+}
+
+export interface ListProps extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /* Bordered */
+  bordered?: boolean;
+
+  /* Animation when hover */
+  hover?: boolean;
+
+  /* Sortable */
+  sortable?: boolean;
+
+  /* Size of list item */
+  size?: 'lg' | 'md' | 'sm';
+
+  /* Auto scroll when overflow */
+  autoScroll?: boolean;
+
+  /* Delay before trigger sort */
+  pressDelay?: number;
+
+  /* Duration of sort animation */
+  transitionDuration?: number;
+
+  /* Callback of beginning of sorting */
+  onSortStart?: PayloadCallback;
+
+  /* Callback of moving */
+  onSortMove?: PayloadCallback;
+
+  /* Callback of end of sorting */
+  onSortEnd?: PayloadCallback;
+
+  /* Callback of end of sorting */
+  onSort?: PayloadCallback;
 }
 
 interface State {

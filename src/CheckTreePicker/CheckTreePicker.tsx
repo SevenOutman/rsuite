@@ -2,8 +2,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import List from 'react-virtualized/dist/commonjs/List';
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
+import { List } from 'react-virtualized/dist/commonjs/List';
+import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import { CellMeasurerCache, CellMeasurer } from 'react-virtualized/dist/commonjs/CellMeasurer';
 import { polyfill } from 'react-lifecycles-compat';
 import shallowEqual from '../utils/shallowEqual';
@@ -57,11 +57,53 @@ import {
   getExpandState
 } from '../utils/treeUtils';
 
-import { CheckTreePickerProps } from './CheckTreePicker.d';
+import { TreeBaseProps } from '../Tree/TreeBase';
+import { FormControlPickerProps } from '../@types/common';
 
 // default value for virtualized
 const defaultHeight = 360;
 const defaultWidth = 200;
+
+export interface CheckTreePickerProps<ValueType = any>
+  extends TreeBaseProps,
+    FormControlPickerProps<ValueType[]> {
+  /** The height of Dropdown */
+  height?: number;
+
+  /** Tree node cascade */
+  cascade?: boolean;
+
+  /** A picker that can be counted */
+  countable?: boolean;
+
+  /** Whether dispaly search input box */
+  searchable?: boolean;
+
+  /** Whether using virtualized list */
+  virtualized?: boolean;
+
+  /** Set the option value for the check box not to be rendered */
+  uncheckableItemValues?: any[];
+
+  /** Set the option value for the expand node */
+  defaultExpandItemValues?: any[];
+
+  /** Set the option value for the expand node with controlled */
+  expandItemValues?: any[];
+
+  /** Customizing the Rendering Menu list */
+  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
+
+  /** Custom render selected items */
+  renderValue?: (
+    value: any[],
+    selectedItems: any[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
+
+  /** Called when scrolling */
+  onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;
+}
 
 interface CheckTreePickerState {
   data?: any[];
@@ -79,7 +121,10 @@ interface CheckTreePickerState {
   active?: boolean;
 }
 
-class CheckTreePicker extends React.Component<CheckTreePickerProps, CheckTreePickerState> {
+class CheckTreePicker<ValueType = any> extends React.Component<
+  CheckTreePickerProps<ValueType>,
+  CheckTreePickerState
+> {
   static propTypes = {
     data: PropTypes.array,
     open: PropTypes.bool,

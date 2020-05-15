@@ -4,7 +4,24 @@ import classNames from 'classnames';
 import compose from 'recompose/compose';
 
 import { prefix, defaultProps, withStyleProps } from '../utils';
-import { TimelineItemProps } from './TimelineItem.d';
+import { StandardProps } from '../@types/common';
+
+export interface TimelineItemProps extends StandardProps {
+  /** Whether the last item */
+  last?: boolean;
+
+  /** Customizing the Timeline item */
+  dot?: React.ReactNode;
+
+  /** The content of the component */
+  children?: React.ReactNode;
+
+  /** You can use a custom element type for this component */
+  componentClass?: React.ElementType;
+
+  /** Customized time of timeline  */
+  time?: React.ReactNode;
+}
 
 class TimelineItem extends React.Component<TimelineItemProps> {
   static propTypes = {
@@ -44,7 +61,7 @@ class TimelineItem extends React.Component<TimelineItemProps> {
   }
 }
 
-export default compose<any, TimelineItemProps>(
+export default compose<TimelineItemProps, TimelineItemProps>(
   withStyleProps<TimelineItemProps>({
     hasColor: true
   }),

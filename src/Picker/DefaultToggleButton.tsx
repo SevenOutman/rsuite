@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Button from '../Button';
-import { ButtonProps } from '../Button/Button.d';
+import { ButtonProps } from '../Button/Button';
 
 const DefaultToggleButton = React.forwardRef<ButtonProps>(
   (props: ButtonProps, ref: React.RefObject<any>) => (

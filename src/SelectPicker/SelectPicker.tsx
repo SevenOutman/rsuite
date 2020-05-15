@@ -23,19 +23,25 @@ import {
   shouldDisplay
 } from '../Picker';
 import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
-import { SelectPickerProps } from './SelectPicker.d';
 import { PLACEMENT } from '../constants';
-import { ItemDataType } from '../@types/common';
+import { FormControlPickerProps, ItemDataType, SelectProps } from '../@types/common';
 
-interface SelectPickerState {
-  value?: any;
+export interface SelectPickerProps<ValueType = any>
+  extends FormControlPickerProps<ValueType>,
+    SelectProps<ValueType> {}
+
+interface SelectPickerState<ValueType = any> {
+  value?: ValueType;
   // Used to focus the active item  when trigger `onKeydown`
   focusItemValue?: any;
   searchKeyword: string;
   active?: boolean;
 }
 
-class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState> {
+class SelectPicker<ValueType = any> extends React.Component<
+  SelectPickerProps<ValueType>,
+  SelectPickerState<ValueType>
+> {
   static propTypes = {
     appearance: PropTypes.oneOf(['default', 'subtle']),
     data: PropTypes.array,
@@ -486,6 +492,6 @@ class SelectPicker extends React.Component<SelectPickerProps, SelectPickerState>
   }
 }
 
-export default defaultProps({
+export default defaultProps<SelectPickerProps>({
   classPrefix: 'picker'
 })(SelectPicker);

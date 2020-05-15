@@ -5,8 +5,7 @@ import classNames from 'classnames';
 import getUnhandledProps from '../utils/getUnhandledProps';
 import getDOMNode from '../utils/getDOMNode';
 import getAnimationEnd from './getAnimationEnd';
-
-import { TransitionProps } from './Animation.d';
+import { AnimationEventProps } from '../@types/common';
 
 export const UNMOUNTED = 0;
 export const EXITED = 1;
@@ -18,30 +17,62 @@ interface TransitionState {
   status?: number;
 }
 
-export const transitionPropTypes = {
-  animation: PropTypes.bool,
-  children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
-  className: PropTypes.string,
-  in: PropTypes.bool,
-  unmountOnExit: PropTypes.bool,
-  transitionAppear: PropTypes.bool,
-  timeout: PropTypes.number,
+export interface TransitionProps extends AnimationEventProps {
+  animation?: boolean;
 
-  exitedClassName: PropTypes.string,
-  exitingClassName: PropTypes.string,
-  enteredClassName: PropTypes.string,
-  enteringClassName: PropTypes.string,
+  /** Primary content */
+  children?: React.ReactNode | ((props: any, ref: any) => React.ReactNode);
 
-  onEnter: PropTypes.func,
-  onEntering: PropTypes.func,
-  onEntered: PropTypes.func,
-  onExit: PropTypes.func,
-  onExiting: PropTypes.func,
-  onExited: PropTypes.func
-};
+  /** Additional classes */
+  className?: string;
+
+  /** Show the component; triggers the enter or exit animation */
+  in?: boolean;
+
+  /** Unmount the component (remove it from the DOM) when it is not shown */
+  unmountOnExit?: boolean;
+
+  /** Run the enter animation when the component mounts, if it is initially shown */
+  transitionAppear?: boolean;
+
+  /** A Timeout for the animation */
+  timeout?: number;
+
+  /** CSS class or classes applied when the component is exited */
+  exitedClassName?: string;
+
+  /** CSS class or classes applied while the component is exiting */
+  exitingClassName?: string;
+
+  /** CSS class or classes applied when the component is entered */
+  enteredClassName?: string;
+
+  /** CSS class or classes applied while the component is entering */
+  enteringClassName?: string;
+}
 
 class Transition extends React.Component<TransitionProps, TransitionState> {
-  static propTypes = transitionPropTypes;
+  static propTypes = {
+    animation: PropTypes.bool,
+    children: PropTypes.oneOfType([PropTypes.node, PropTypes.func]),
+    className: PropTypes.string,
+    in: PropTypes.bool,
+    unmountOnExit: PropTypes.bool,
+    transitionAppear: PropTypes.bool,
+    timeout: PropTypes.number,
+
+    exitedClassName: PropTypes.string,
+    exitingClassName: PropTypes.string,
+    enteredClassName: PropTypes.string,
+    enteringClassName: PropTypes.string,
+
+    onEnter: PropTypes.func,
+    onEntering: PropTypes.func,
+    onEntered: PropTypes.func,
+    onExit: PropTypes.func,
+    onExiting: PropTypes.func,
+    onExited: PropTypes.func
+  };
   static displayName = 'Transition';
   static defaultProps = {
     timeout: 1000

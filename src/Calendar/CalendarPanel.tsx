@@ -7,11 +7,37 @@ import Button from '../Button';
 import IntlContext from '../IntlProvider/IntlContext';
 import FormattedDate from '../IntlProvider/FormattedDate';
 import { defaultProps, prefix } from '../utils';
-import { CalendarPanelProps } from './CalendarPanel.d';
+import { StandardProps } from '../@types/common';
 
 interface State {
   value?: Date;
   showMonth?: boolean;
+}
+
+export interface CalendarPanelProps extends StandardProps {
+  /** Controlled value */
+  value?: Date;
+
+  /** Default value  */
+  defaultValue?: Date;
+
+  /** ISO 8601 standard, each calendar week begins on Monday and Sunday on the seventh day  */
+  isoWeek?: boolean;
+
+  /** Display a compact calendar   */
+  compact?: boolean;
+
+  /** Show border   */
+  bordered?: boolean;
+
+  /**  Callback fired before the value changed  */
+  onChange?: (date: Date) => void;
+
+  /** Callback fired before the date selected */
+  onSelect?: (date: Date) => void;
+
+  /** Custom render calendar cells  */
+  renderCell?: (date: Date) => React.ReactNode;
 }
 
 class CalendarPanel extends React.PureComponent<CalendarPanelProps, State> {

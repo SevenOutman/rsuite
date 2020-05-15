@@ -5,13 +5,35 @@ import classNames from 'classnames';
 import shallowEqual from '../utils/shallowEqual';
 
 import { getUnhandledProps, defaultProps, prefix, createContext } from '../utils';
-import { CheckboxGroupProps, CheckboxContextProps } from './CheckboxGroup.d';
+import { FormControlBaseProps, StandardProps } from '../@types/common';
+import { CheckboxProps } from '../Checkbox';
 
 interface State {
   value: any[];
 }
 
+export interface CheckboxContextProps {
+  inline?: boolean;
+  name?: string;
+  value?: any[];
+  controlled?: boolean;
+  onChange?: (value: any, checked: boolean, event: React.SyntheticEvent<HTMLInputElement>) => void;
+}
+
 export const CheckboxContext = createContext<CheckboxContextProps>({});
+
+export interface CheckboxGroupProps<V = any>
+  extends StandardProps,
+    FormControlBaseProps<Array<CheckboxProps<V>['value']>> {
+  /** Used for the name of the form */
+  name?: string;
+
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** Inline layout */
+  inline?: boolean;
+}
 
 class CheckboxGroup extends React.Component<CheckboxGroupProps, State> {
   static propTypes = {

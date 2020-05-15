@@ -1,6 +1,6 @@
 import shallowEqual from '../utils/shallowEqual';
 import stringToObject from '../utils/stringToObject';
-import { CascaderProps } from './Cascader.d';
+import { CascaderProps } from './Cascader';
 
 export function getDerivedStateForCascade(
   nextProps: CascaderProps,

@@ -31,7 +31,7 @@ export interface TableColumnProps {
   /** Callback function for resize the colum */
   onResize?: (columnWidth?: number, dataKey?: string) => void;
 
-  /**A column of a tree */
+  /** A column of a tree */
   treeCol?: boolean;
 }
 

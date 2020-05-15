@@ -6,7 +6,24 @@ import setStatic from 'recompose/setStatic';
 
 import StepItem from './StepItem';
 import { prefix, defaultProps, ReactChildren, isIE10 } from '../utils';
-import { StepsProps } from './Steps.d';
+import { StandardProps } from '../@types/common';
+
+export interface StepsProps extends StandardProps {
+  /** Vertical display */
+  vertical?: boolean;
+
+  /** Small size Step Bar */
+  small?: boolean;
+
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** Current execution step */
+  current?: number;
+
+  /** Current execution step status */
+  currentStatus?: 'finish' | 'wait' | 'process' | 'error';
+}
 
 class Steps extends React.Component<StepsProps> {
   static propTypes = {

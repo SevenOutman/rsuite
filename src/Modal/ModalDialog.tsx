@@ -4,21 +4,29 @@ import classNames from 'classnames';
 import compose from 'recompose/compose';
 
 import { withStyleProps, defaultProps, prefix, refType } from '../utils';
-import { ModalDialogProps } from './ModalDialog.d';
 import mergeRefs from '../utils/mergeRefs';
+import { StandardProps } from '../@types/common';
 
-export const modalDialogPropTypes = {
-  className: PropTypes.string,
-  classPrefix: PropTypes.string,
-  dialogClassName: PropTypes.string,
-  style: PropTypes.object,
-  dialogStyle: PropTypes.object,
-  children: PropTypes.node,
-  dialogRef: refType
-};
+export interface ModalDialogProps extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
+
+  dialogClassName?: string;
+  dialogStyle?: React.CSSProperties;
+
+  dialogRef?: (instance: HTMLDivElement) => void;
+}
 
 class ModalDialog extends React.Component<ModalDialogProps> {
-  static propTypes = modalDialogPropTypes;
+  static propTypes = {
+    className: PropTypes.string,
+    classPrefix: PropTypes.string,
+    dialogClassName: PropTypes.string,
+    style: PropTypes.object,
+    dialogStyle: PropTypes.object,
+    children: PropTypes.node,
+    dialogRef: refType
+  };
 
   htmlElement: HTMLDivElement = null;
   getHTMLElement() {

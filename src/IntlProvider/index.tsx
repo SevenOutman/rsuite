@@ -1,3 +1,1 @@
-import IntlProvider from './IntlProvider';
-
-export default IntlProvider;
+export { default, IntlProviderProps } from './IntlProvider';

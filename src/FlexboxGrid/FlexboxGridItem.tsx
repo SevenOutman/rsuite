@@ -3,41 +3,43 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { defaultProps, prefix } from '../utils';
-import { FlexboxGridItemProps } from './FlexboxGridItem.d';
+import { StandardProps } from '../@types/common';
 
-class FlexboxGridItem extends React.Component<FlexboxGridItemProps> {
-  static propTypes = {
-    className: PropTypes.string,
-    colspan: PropTypes.number,
-    order: PropTypes.number,
-    classPrefix: PropTypes.string,
-    componentClass: PropTypes.elementType
-  };
-  static defaultProps = {
-    componentClass: 'div',
-    colspan: 0,
-    order: 0
-  };
+export type FlexboxGridItemProps<P = {}> = StandardProps & {
+  /** spacing between grids */
+  colspan?: number;
 
-  render() {
-    const {
-      className,
-      classPrefix,
-      colspan,
-      order,
-      componentClass: Component,
-      ...props
-    } = this.props;
+  /** grid orders for sorting */
+  order?: number;
 
-    const addPrefix = prefix(classPrefix);
-    const classes = classNames(className, classPrefix, {
-      [addPrefix(`${colspan}`)]: colspan >= 0,
-      [addPrefix(`order-${order}`)]: order
-    });
+  /** You can use a custom element for this component */
+  componentClass?: React.ElementType<P>;
+} & P;
 
-    return <Component {...props} className={classes} />;
-  }
+function FlexboxGridItem({
+  className,
+  classPrefix,
+  colspan = 0,
+  order = 0,
+  componentClass: Component = 'div',
+  ...props
+}: FlexboxGridItemProps) {
+  const addPrefix = prefix(classPrefix);
+  const classes = classNames(className, classPrefix, {
+    [addPrefix(`${colspan}`)]: colspan >= 0,
+    [addPrefix(`order-${order}`)]: order
+  });
+
+  return <Component {...props} className={classes} />;
 }
+
+FlexboxGridItem.propTypes = {
+  className: PropTypes.string,
+  colspan: PropTypes.number,
+  order: PropTypes.number,
+  classPrefix: PropTypes.string,
+  componentClass: PropTypes.elementType
+};
 
 export default defaultProps<FlexboxGridItemProps>({
   classPrefix: 'flex-box-grid-item'

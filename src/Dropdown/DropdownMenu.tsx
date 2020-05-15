@@ -5,8 +5,7 @@ import Collapse from '../Animation/Collapse';
 import shallowEqual from '../utils/shallowEqual';
 
 import DropdownMenuItem from './DropdownMenuItem';
-import { DropdownMenuProps } from './DropdownMenu.d';
-import Icon from '../Icon';
+import Icon, { IconProps } from '../Icon';
 import Ripple from '../Ripple';
 import {
   createChainedFunction,
@@ -16,6 +15,24 @@ import {
   defaultProps
 } from '../utils';
 import mergeRefs from '../utils/mergeRefs';
+import { StandardProps } from '../@types/common';
+
+export interface DropdownMenuProps<T = any> extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
+
+  /** Define the title as a submenu */
+  title?: React.ReactNode;
+
+  /** The submenu expands from the left and defaults to the right */
+  pullLeft?: boolean;
+
+  /** The value of the current option */
+  eventKey?: T;
+
+  /** Set the icon */
+  icon?: React.ReactElement<IconProps>;
+}
 
 class DropdownMenu extends React.Component<DropdownMenuProps> {
   static displayName = 'DropdownMenu';

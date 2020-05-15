@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { getStyle, addStyle } from 'dom-lib';
 import _ from 'lodash';
 
-import Transition, { transitionPropTypes } from './Transition';
+import Transition from './Transition';
 import createChainedFunction from '../utils/createChainedFunction';
 import { CollapseProps } from './Animation.d';
 
@@ -33,7 +33,7 @@ function getScrollDimensionValue(elem: Element, dimension: Dimension) {
 
 class Collapse extends React.Component<CollapseProps> {
   static propTypes = {
-    ...transitionPropTypes,
+    ...Transition.propTypes,
     dimension: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     getDimensionValue: PropTypes.func,
     role: PropTypes.string
@@ -115,7 +115,7 @@ class Collapse extends React.Component<CollapseProps> {
 
     return (
       <Transition
-        {..._.pick(this.props, Object.keys(transitionPropTypes))}
+        {..._.pick(this.props, Object.keys(Transition.propTypes))}
         ref={this.transitionRef}
         aria-expanded={role ? this.props.in : null}
         className={classNames(className, { width: this.dimension() === 'width' })}

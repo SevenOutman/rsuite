@@ -1,6 +1,5 @@
 import classNames from 'classnames';
-import { prefix } from '../utils';
-import { defaultClassPrefix } from '../utils/prefix';
+import { prefix, defaultClassPrefix } from '../utils';
 import NoticeManager, { NoticeManagerProps } from '../Notification/NoticeManager';
 import { AlertProps } from './Alert.d';
 
@@ -26,6 +25,7 @@ class Alert {
       this._instance = null;
     }
   }
+
   getInstance(callback) {
     const { top, style, className, ...rest } = this.props;
     const props: NoticeManagerProps = {
@@ -63,6 +63,7 @@ class Alert {
       this._instance.push(nextProps);
     }
   }
+
   close(key: string) {
     if (this._instance) {
       this._instance.remove(key);

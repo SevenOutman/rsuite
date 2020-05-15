@@ -1,21 +1,97 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import { SchemaModel } from 'schema-typed';
+import { Schema, SchemaModel } from 'schema-typed';
 import classNames from 'classnames';
 import shallowEqual from '../utils/shallowEqual';
 
-import { getUnhandledProps, prefix } from '../utils';
-import { defaultClassPrefix } from '../utils/prefix';
+import { defaultClassPrefix, getUnhandledProps, prefix } from '../utils';
 import FormContext, { FormValueContext, FormErrorContext } from './FormContext';
-import { FormProps } from './Form.d';
+import { StandardProps, TypeAttributes } from '../@types/common';
+import { CheckResult } from 'schema-typed/types/Type';
+
+export interface FormProps<
+  T = Record<string, any>,
+  errorMsgType = string,
+  E = { [P in keyof T]?: errorMsgType }
+> extends StandardProps {
+  /** Set the left and right columns of the layout of the elements within the form */
+  layout?: 'horizontal' | 'vertical' | 'inline';
+
+  /** The fluid property allows the Input 100% of the form to fill the container, valid only in vertical layouts. */
+  fluid?: boolean;
+
+  /** Current value of the input. Creates a controlled component */
+  formValue?: T;
+
+  /** Initial value */
+  formDefaultValue?: T;
+
+  /** Error message of form */
+  formError?: E;
+
+  /** Delayed processing when data check, unit: millisecond */
+  checkDelay?: number;
+
+  /** Trigger the type of form validation */
+  checkTrigger?: TypeAttributes.CheckTrigger;
+
+  /** SchemaModel object */
+  model?: Schema;
+
+  /** Make the form readonly */
+  readOnly?: boolean;
+
+  /** Render the form as plain text */
+  plaintext?: boolean;
+
+  /** Callback fired when data changing */
+  onChange?: (formValue: T, event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Callback fired when error checking */
+  onError?: (formError: E) => void;
+
+  /** Callback fired when data cheking */
+  onCheck?: (formError: E) => void;
+
+  /** Callback fired when form submit */
+  onSubmit?: (checkStatus: boolean, event: React.FormEvent<HTMLFormElement>) => void;
+}
 
 interface FormState {
   formError?: any;
   formValue?: any;
 }
 
-class Form extends React.Component<FormProps, FormState> {
+export interface FormHandle<
+  T = Record<string, any>,
+  errorMsg = string,
+  E = { [P in keyof T]?: errorMsg }
+> {
+  check: (callback?: (formError: E) => void) => boolean;
+  checkAsync: () => Promise<any>;
+  checkForField: (
+    fieldName: keyof T,
+    callback?: (checkResult: CheckResult<errorMsg>) => void
+  ) => boolean;
+  checkForFieldAsync: (fieldName: keyof T) => Promise<CheckResult>;
+  cleanErrors: (callback?: () => void) => void;
+  cleanErrorForFiled: (fieldName: keyof E, callback?: () => void) => void;
+  resetErrors: (formError: E, callback?: () => void) => void;
+}
+
+/**
+ * for compatibility
+ */
+export type FormInstance<
+  T = Record<string, any>,
+  errorMsg = string,
+  E = { [P in keyof T]?: errorMsg }
+> = FormHandle<T, errorMsg, E>;
+
+class Form<T = Record<string, any>, errorMsgType = string, E = { [P in keyof T]?: errorMsgType }>
+  extends React.Component<FormProps<T, errorMsgType, E>, FormState>
+  implements FormHandle<T, errorMsgType, E> {
   static propTypes = {
     className: PropTypes.string,
     layout: PropTypes.oneOf(['horizontal', 'vertical', 'inline']),
@@ -48,7 +124,7 @@ class Form extends React.Component<FormProps, FormState> {
 
   formContextValue = null;
 
-  constructor(props: FormProps) {
+  constructor(props) {
     super(props);
     const { formDefaultValue, formError } = this.props;
 
@@ -57,6 +133,7 @@ class Form extends React.Component<FormProps, FormState> {
       formValue: formDefaultValue
     };
   }
+
   getFormValue = (state: FormState = this.state, props: FormProps = this.props) =>
     _.isUndefined(props.formValue) ? state.formValue : props.formValue;
   getFormError = (state: FormState = this.state, props: FormProps = this.props) =>
@@ -81,11 +158,11 @@ class Form extends React.Component<FormProps, FormState> {
 
     this.setState({ formError });
 
-    onCheck?.(formError);
+    onCheck?.(formError as E);
     callback?.(formError);
 
     if (errorCount > 0) {
-      onError?.(formError);
+      onError?.(formError as E);
       return false;
     }
 

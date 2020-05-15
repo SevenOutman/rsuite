@@ -4,7 +4,12 @@ import classNames from 'classnames';
 import Transition from '../Animation/Transition';
 import { getOffset, on } from 'dom-lib';
 import { defaultProps, getUnhandledProps, prefix } from '../utils';
-import { RippleProps } from './Ripple.d';
+
+export interface RippleProps {
+  classPrefix?: string;
+  className?: string;
+  onMouseDown?: (position: any, event: React.MouseEvent) => void;
+}
 
 interface RippleState {
   rippling: boolean;

@@ -9,6 +9,9 @@ export interface Props extends StandardProps {
   componentClass?: React.ElementType;
 }
 
+function defaultProps<T = any>(
+  props: Partial<T>
+): <P = T>(Component: React.ComponentType<P>) => React.ComponentType<P>;
 function defaultProps<T>(props) {
   const { classPrefix, ...rest } = props;
 

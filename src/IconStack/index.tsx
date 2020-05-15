@@ -1,3 +1,1 @@
-import IconStack from './IconStack';
-
-export default IconStack;
+export { default, IconStackProps } from './IconStack';

@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import FormattedMessage from '../IntlProvider/FormattedMessage';
 import { getUnhandledProps, prefix, defaultProps } from '../utils';
 import { addDays } from 'date-fns';
-import { RangeType } from './DatePicker.d';
+import { RangeType } from './typings';
 
 export interface ToolbarProps {
   ranges: RangeType[];

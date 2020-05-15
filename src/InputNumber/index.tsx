@@ -1,3 +1,1 @@
-import InputNumber from './InputNumber';
-
-export default InputNumber;
+export { default, InputNumberProps } from './InputNumber';

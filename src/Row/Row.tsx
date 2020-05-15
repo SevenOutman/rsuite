@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { defaultProps, ReactChildren } from '../utils';
 
-import { RowProps } from './Row.d';
+import { StandardProps } from '../@types/common';
+
+export interface RowProps extends StandardProps {
+  gutter?: number;
+  componentClass?: React.ElementType;
+  children?: React.ReactNode;
+}
 
 class Row extends React.Component<RowProps> {
   static propTypes = {

@@ -3,7 +3,12 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { defaultProps, prefix, createContext } from '../utils';
-import { ContainerProps } from './Container.d';
+import { StandardProps } from '../@types/common';
+
+export interface ContainerProps extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
+}
 
 interface ContainerState {
   hasSidebar: boolean;

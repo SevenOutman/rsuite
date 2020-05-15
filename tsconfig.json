@@ -1,13 +1,17 @@
 {
   "compilerOptions": {
+    "outDir": "lib",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "noImplicitAny": false,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
+    "declaration": true,
+    "skipLibCheck": true,
     "target": "es5",
     "jsx": "react"
   },
-  "include": ["./src/**/*.ts", "./src/**/*.tsx"]
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
+  "exclude": ["node_modules"]
 }

@@ -2,8 +2,8 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import _ from 'lodash';
-import List from 'react-virtualized/dist/commonjs/List';
-import AutoSizer from 'react-virtualized/dist/commonjs/AutoSizer';
+import { List } from 'react-virtualized/dist/commonjs/List';
+import { AutoSizer } from 'react-virtualized/dist/commonjs/AutoSizer';
 import { CellMeasurerCache, CellMeasurer } from 'react-virtualized/dist/commonjs/CellMeasurer';
 import { polyfill } from 'react-lifecycles-compat';
 
@@ -44,12 +44,85 @@ import {
   shouldDisplay
 } from '../Picker';
 
-import { TreePickerProps } from './TreePicker.d';
 import { PLACEMENT, TREE_NODE_DROP_POSITION } from '../constants';
+import { TreeBaseProps } from '../Tree/TreeBase';
+import { FormControlPickerProps } from '../@types/common';
 
 // default value for virtualized
 const defaultHeight = 360;
 const defaultWidth = 200;
+
+export interface DropData {
+  /** drag node data */
+  dragNode: any;
+
+  /** dropNode data */
+  dropNode: any;
+
+  /** node drop postion */
+  dropNodePosition: TREE_NODE_DROP_POSITION;
+
+  /** Update Data when drop node */
+  createUpdateDataFunction: (data: any[]) => any[];
+}
+export interface TreePickerProps extends TreeBaseProps, FormControlPickerProps {
+  /** The height of Dropdown */
+  height?: number;
+
+  /** Tree node cascade */
+  cascade?: boolean;
+
+  /** A picker that can be counted */
+  countable?: boolean;
+
+  /** Whether dispaly search input box */
+  searchable?: boolean;
+
+  /** Whether using virtualized list */
+  virtualized?: boolean;
+
+  /** Whether the node can  be dragged */
+  draggable?: boolean;
+
+  /** Set the option value for the expand node */
+  defaultExpandItemValues?: any[];
+
+  /** Set the option value for the expand node with controlled */
+  expandItemValues?: any[];
+
+  /** Customizing the Rendering Menu list */
+  renderMenu?: (menu: React.ReactNode) => React.ReactNode;
+
+  /** Custom render selected items */
+  renderValue?: (
+    value: any[],
+    selectedItems: any[],
+    selectedElement: React.ReactNode
+  ) => React.ReactNode;
+
+  /** Called when scrolling */
+  onScroll?: (event: React.SyntheticEvent<HTMLElement>) => void;
+
+  /** Called when node drag start */
+  onDragStart?: (nodeData: any, e: React.DragEvent) => void;
+
+  /** Called when node drag enter */
+  onDragEnter?: (nodeData: any, e: React.DragEvent) => void;
+
+  /** Called when node drag over */
+  onDragOver?: (nodeData: any, e: React.DragEvent) => void;
+
+  /** Called when node drag leave */
+  onDragLeave?: (nodeData: any, e: React.DragEvent) => void;
+
+  /** Called when node drag end */
+  onDragEnd?: (nodeData: any, e: React.DragEvent) => void;
+
+  /** Called when node drop */
+  onDrop?: (dropData: DropData, e: React.DragEvent) => void;
+
+  renderDragNode?: (dragNode: any) => React.ReactNode;
+}
 
 interface TreePickerState {
   data?: any[];
@@ -70,7 +143,7 @@ interface TreePickerState {
 
 class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
+    appearance: PropTypes.oneOf<TreePickerProps['appearance']>(['default', 'subtle']),
     data: PropTypes.array,
     open: PropTypes.bool,
     style: PropTypes.object,
@@ -1033,7 +1106,7 @@ class TreePicker extends React.Component<TreePickerProps, TreePickerState> {
 
     // 当未定义 height 且 设置了 virtualized 为 true，treeHeight 设置默认高度
     const treeHeight = _.isUndefined(height) && virtualized ? defaultHeight : height;
-    const treeWidth = _.isUndefined(style?.width) ? defaultWidth : style.width;
+    const treeWidth = _.isUndefined(style?.width) ? defaultWidth : style.width as number;
     const styles = inline ? { height: treeHeight, ...style } : {};
 
     const listHeight = getVirtualLisHeight(inline, searchable, treeHeight);

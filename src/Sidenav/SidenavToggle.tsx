@@ -5,7 +5,15 @@ import classNames from 'classnames';
 import IconButton from '../IconButton';
 import Icon from '../Icon';
 import { defaultProps } from '../utils';
-import { SidenavToggleProps } from './SidenavToggle.d';
+import { StandardProps } from '../@types/common';
+
+export interface SidenavToggleProps extends StandardProps {
+  /** Expand then nav */
+  expanded?: boolean;
+
+  /** Callback function for menu state switching */
+  onToggle?: (expanded: boolean, event: React.SyntheticEvent<HTMLButtonElement>) => void;
+}
 
 class SidenavToggle extends React.Component<SidenavToggleProps> {
   static propTypes = {

@@ -28,9 +28,20 @@ import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
 import InputAutosize from './InputAutosize';
 import InputSearch from './InputSearch';
 import Tag from '../Tag';
-import { InputPickerProps } from './InputPicker.d';
 import { PLACEMENT } from '../constants';
-import { ItemDataType } from '../@types/common';
+import { FormControlPickerProps, ItemDataType, SelectProps } from '../@types/common';
+import { TagProps } from '../../es/Tag';
+
+export interface InputPickerProps extends FormControlPickerProps<any>, SelectProps<any> {
+  /** Settings can create new options */
+  creatable?: boolean;
+
+  /**
+   * Tag related props.
+   * https://github.com/rsuite/rsuite/blob/master/src/Tag/Tag.d.ts
+   */
+  tagProps?: TagProps;
+}
 
 interface InputPickerState {
   data?: any[];
@@ -784,6 +795,6 @@ class InputPicker extends React.Component<InputPickerProps, InputPickerState> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<InputPickerProps>({
   classPrefix: 'picker'
 })(InputPicker);

@@ -12,8 +12,11 @@ const mergeObject = (list: any[]) =>
     return a;
   }, {});
 
-function withLocale<T>(combineKeys: string[] = []) {
-  return (BaseComponent: React.ComponentType<any>) => {
+function withLocale<T = any>(
+  combineKeys?: string[]
+): (Component: React.ComponentType<T>) => React.ComponentType<T>;
+function withLocale<T = any>(combineKeys: string[] = []) {
+  return (BaseComponent: React.ComponentType<T>) => {
     const WithLocale = React.forwardRef((props: T, ref) => {
       return (
         <IntlGlobalContext.Consumer>

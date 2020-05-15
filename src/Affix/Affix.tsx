@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import { on, getOffset } from 'dom-lib';
 import bindElementResize, { unbind as unbindElementResize } from 'element-resize-event';
 import { defaultProps, getUnhandledProps } from '../utils';
-import { AffixProps } from './Affix.d';
+import { StandardProps } from '../@types/common';
 
 interface Offset {
   top?: number;
@@ -14,10 +14,24 @@ interface Offset {
   height?: number;
 }
 
-interface AffixState {
+export interface AffixState {
   offset?: Offset;
   fixed?: boolean;
   containerOffset?: Offset;
+}
+
+export interface AffixProps extends StandardProps {
+  /** The content of the wrapped */
+  children?: React.ReactNode;
+
+  /** Distance from top */
+  top?: number;
+
+  /** Callback after the state changes. */
+  onChange?: (fixed: boolean) => void;
+
+  /** Specify the container. */
+  container?: HTMLElement | (() => HTMLElement);
 }
 
 class Affix extends React.Component<AffixProps, AffixState> {

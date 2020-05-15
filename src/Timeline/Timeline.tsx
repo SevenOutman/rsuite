@@ -6,7 +6,21 @@ import setStatic from 'recompose/setStatic';
 
 import TimelineItem from './TimelineItem';
 import { defaultProps, prefix, ReactChildren } from '../utils';
-import { TimelineProps } from './Timeline.d';
+import { StandardProps } from '../@types/common';
+
+export interface TimelineProps extends StandardProps {
+  /** The content of the component */
+  children?: React.ReactNode;
+
+  /** You can use a custom element type for this component */
+  componentClass?: React.ElementType;
+
+  /** TimeLine content relative position  **/
+  align?: 'left' | 'right' | 'alternate';
+
+  /** Timeline endless **/
+  endless?: boolean;
+}
 
 class Timeline extends React.Component<TimelineProps> {
   static propTypes = {
@@ -52,11 +66,7 @@ class Timeline extends React.Component<TimelineProps> {
   }
 }
 
-const EnhancedTimeline = defaultProps<TimelineProps>({
+export default defaultProps<TimelineProps>({
   classPrefix: 'timeline',
   componentClass: 'ul'
 })(Timeline);
-
-setStatic('Item', TimelineItem)(EnhancedTimeline);
-
-export default EnhancedTimeline;

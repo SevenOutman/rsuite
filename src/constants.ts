@@ -1,3 +1,5 @@
+import { TypeAttributes } from './@types/common';
+
 export const STATUS_ICON_NAMES: any = {
   info: 'info',
   success: 'check-circle',
@@ -13,12 +15,12 @@ export enum PAGINATION_ICON_NAMES {
   last = 'page-end'
 }
 
-export const SIZE = ['lg', 'md', 'sm', 'xs'];
+export const SIZE: TypeAttributes.Size[] = ['lg', 'md', 'sm', 'xs'];
 export const STATUS = ['success', 'warning', 'error', 'info'];
 export const COLOR = ['red', 'orange', 'yellow', 'green', 'cyan', 'blue', 'violet'];
 
 export const PLACEMENT_4 = ['top', 'bottom', 'right', 'left'];
-export const PLACEMENT_8 = [
+export const PLACEMENT_8: TypeAttributes.Placement8[] = [
   'bottomStart',
   'bottomEnd',
   'topStart',

@@ -1,3 +1,2 @@
-import Form from './Form';
-
-export default Form;
+export { default, FormProps, FormInstance } from './Form';
+export * from './FormContext';

@@ -1,7 +1,21 @@
 import * as React from 'react';
 import ReactDOM from 'react-dom';
 import { getContainer, ownerDocument } from 'dom-lib';
-import { PortalProps } from './Portal.d';
+
+export interface PortalProps {
+  /**
+   * A Node, Component instance, or function that returns either.
+   * The `container` will have the Portal children
+   * appended to it.
+   */
+  container?: HTMLElement | (() => HTMLElement);
+
+  /** Rendered callback function */
+  onRendered?: () => void;
+
+  /** Primary content */
+  children?: React.ReactNode;
+}
 
 class Portal extends React.Component<PortalProps> {
   static displayName = 'Portal';

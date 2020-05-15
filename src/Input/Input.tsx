@@ -11,10 +11,30 @@ import {
   getUnhandledProps,
   refType
 } from '../utils';
-import { FormPlaintextContext } from '../Form/FormContext';
-import { FormGroupContext } from '../FormGroup/FormGroup';
+import { FormPlaintextContext } from '../Form';
+import { FormGroupContext } from '../FormGroup';
 import { InputGroupContext } from '../InputGroup/InputGroup';
-import { InputProps } from './Input.d';
+import { FormControlBaseProps, StandardProps } from '../@types/common';
+
+export interface InputProps extends StandardProps, FormControlBaseProps<string> {
+  /** You can use a custom element for this component */
+  componentClass?: React.ElementType;
+
+  /** The HTML input type */
+  type?: string;
+
+  /** The HTML input id */
+  id?: string;
+
+  /** An Input field can show that it is disabled */
+  disabled?: boolean;
+
+  /** Ref of input element */
+  inputRef?: React.Ref<any>;
+
+  /** Called on press enter */
+  onPressEnter?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
+}
 
 class Input extends React.Component<InputProps> {
   static contextType = InputGroupContext;

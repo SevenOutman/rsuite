@@ -2,7 +2,33 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { prefix, defaultProps, getUnhandledProps } from '../utils';
-import { ProgressLineProps } from './ProgressLine.d';
+import { StandardProps } from '../@types/common';
+
+export interface ProgressLineProps extends StandardProps {
+  /** Line color */
+  strokeColor?: string;
+
+  /** Percent of progress */
+  percent?: number;
+
+  /** Line width */
+  strokeWidth?: number;
+
+  /** Trail color */
+  trailColor?: string;
+
+  /** Trail width */
+  trailWidth?: number;
+
+  /** Show text */
+  showInfo?: boolean;
+
+  /** Progress status */
+  status?: 'success' | 'fail' | 'active';
+
+  /**  The progress bar is displayed vertically */
+  vertical?: boolean;
+}
 
 class ProgressLine extends React.Component<ProgressLineProps> {
   static propTypes = {
@@ -15,7 +41,7 @@ class ProgressLine extends React.Component<ProgressLineProps> {
     trailWidth: PropTypes.number,
     showInfo: PropTypes.bool,
     vertical: PropTypes.bool,
-    status: PropTypes.oneOf(['success', 'fail', 'active'])
+    status: PropTypes.oneOf<ProgressLineProps['status']>(['success', 'fail', 'active'])
   };
   static defaultProps = {
     showInfo: true,

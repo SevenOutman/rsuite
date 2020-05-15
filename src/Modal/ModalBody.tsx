@@ -3,28 +3,31 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 import { defaultProps } from '../utils';
-import { ModalBodyProps } from './ModalBody.d';
 import ModalContext from './ModalContext';
+import { StandardProps } from '../@types/common';
 
-class ModalBody extends React.Component<ModalBodyProps> {
-  static propTypes = {
-    classPrefix: PropTypes.string,
-    className: PropTypes.string
-  };
-  render() {
-    const { classPrefix, className, style, ...props } = this.props;
-    const classes = classNames(classPrefix, className);
-
-    return (
-      <ModalContext.Consumer>
-        {context => {
-          const bodyStyles = context ? context.getBodyStyles() : {};
-          return <div {...props} style={{ ...bodyStyles, ...style }} className={classes} />;
-        }}
-      </ModalContext.Consumer>
-    );
-  }
+export interface ModalBodyProps extends StandardProps {
+  /** Primary content */
+  children?: React.ReactNode;
 }
+
+function ModalBody({ classPrefix, className, style, ...props }: ModalBodyProps) {
+  const classes = classNames(classPrefix, className);
+
+  return (
+    <ModalContext.Consumer>
+      {context => {
+        const bodyStyles = context ? context.getBodyStyles() : {};
+        return <div {...props} style={{ ...bodyStyles, ...style }} className={classes} />;
+      }}
+    </ModalContext.Consumer>
+  );
+}
+
+ModalBody.propTypes = {
+  classPrefix: PropTypes.string,
+  className: PropTypes.string
+};
 
 export default defaultProps({
   classPrefix: 'modal-body'

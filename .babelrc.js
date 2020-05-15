@@ -25,7 +25,7 @@ module.exports = (api, options) => {
     presets: [
       ['@babel/preset-env', { modules, loose: true }],
       ['@babel/preset-react', { development: dev }],
-      '@babel/typescript'
+      '@babel/preset-typescript'
     ],
     plugins,
     env: {

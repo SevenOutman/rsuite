@@ -1,6 +1,23 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import { SafeAnchorProps } from './SafeAnchor.d';
+
+export interface SafeAnchorProps {
+  /** Link specified url */
+  href?: string;
+
+  /** A link can show it is currently unable to be interacted with */
+  disabled?: boolean;
+
+  /** A link can receive focus */
+  tabIndex?: number | string;
+
+  /** You can use a custom element for this component */
+  componentClass?: React.ElementType<any>;
+
+  onClick?: (event: React.MouseEvent) => void;
+
+  [key: string]: any;
+}
 
 const SafeAnchor: React.FunctionComponent = React.forwardRef<'SafeAnchor', SafeAnchorProps>(
   (props, ref) => {
@@ -27,8 +44,6 @@ const SafeAnchor: React.FunctionComponent = React.forwardRef<'SafeAnchor', SafeA
 SafeAnchor.displayName = 'SafeAnchor';
 SafeAnchor.propTypes = {
   disabled: PropTypes.bool,
-
-  /** @default 'a' */
   componentClass: PropTypes.elementType
 };
 

@@ -26,9 +26,18 @@ import {
   shouldDisplay
 } from '../Picker';
 import DropdownMenu, { dropdownMenuPropTypes } from '../Picker/DropdownMenu';
-import { CheckPickerProps } from './CheckPicker.d';
 import { PLACEMENT } from '../constants';
-import { ItemDataType } from '../@types/common';
+import { FormControlPickerProps, ItemDataType, SelectProps } from '../@types/common';
+
+export interface CheckPickerProps<ValueType = any>
+  extends FormControlPickerProps<ValueType[]>,
+    SelectProps<ValueType[]> {
+  /** Top the selected option in the options */
+  sticky?: boolean;
+
+  /** A picker that can be counted */
+  countable?: boolean;
+}
 
 interface CheckPickerState {
   value?: any[];
@@ -41,7 +50,7 @@ interface CheckPickerState {
 
 class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   static propTypes = {
-    appearance: PropTypes.oneOf(['default', 'subtle']),
+    appearance: PropTypes.oneOf<CheckPickerProps['appearance']>(['default', 'subtle']),
     data: PropTypes.array,
     locale: PropTypes.object,
     classPrefix: PropTypes.string,
@@ -207,6 +216,7 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
 
     focus(items, -1);
   }
+
   focusNextMenuItem = () => {
     const { valueKey } = this.props;
     this.findNode((items, index) => {
@@ -553,6 +563,6 @@ class CheckPicker extends React.Component<CheckPickerProps, CheckPickerState> {
   }
 }
 
-export default defaultProps({
+export default defaultProps<CheckPickerProps>({
   classPrefix: 'picker'
 })(CheckPicker);
