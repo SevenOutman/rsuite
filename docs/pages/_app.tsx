@@ -20,12 +20,14 @@ import { getMessages } from '../locales';
 import {
   DirectionType,
   getDefaultTheme,
+  getStylesheetPath,
   readTheme,
   ThemeType,
   writeTheme
 } from '../utils/themeHelpers';
 import StyleHead from '../components/StyleHead';
 import { canUseDOM } from 'dom-lib';
+import loadCssFile from '@/utils/loadCssFile';
 
 Router.events.on('routeChangeStart', url => {
   NProgress.start();
@@ -81,11 +83,38 @@ function App({ Component, pageProps }: AppProps) {
     };
   }, [themeName, direction, onChangeTheme]);
 
+  const loadStylesheet = React.useCallback(
+    async (direction: DirectionType) => {
+      console.log('loadStylesheet', direction);
+      NProgress.start();
+
+      const id = `stylesheet-${direction}`;
+
+      await loadCssFile(getStylesheetPath(direction), id);
+      console.log('loadCssFile done');
+
+      const html = document.querySelector('html');
+      html.setAttribute('dir', direction);
+      writeTheme(themeName, direction);
+      NProgress.done();
+
+      console.log('Stylesheets: ', document.querySelectorAll('[id^=stylesheet]'));
+      for (const css of document.querySelectorAll('[rel=stylesheet]')) {
+        console.log(css);
+        if (css.getAttribute('id') !== id) {
+          css.remove();
+        }
+      }
+    },
+    [themeName]
+  );
+
   const onChangeDirection = React.useCallback(() => {
+    console.log('onChangeDirection: ', direction);
     const newDirection = direction === 'ltr' ? 'rtl' : 'ltr';
     setDirection(newDirection);
-    writeTheme(themeName, newDirection);
-  }, [direction, themeName]);
+    loadStylesheet(newDirection);
+  }, [direction]);
 
   const onChangeLanguage = React.useCallback((value: string) => {
     setLanguage(value);

@@ -3,6 +3,7 @@ const path = require('path');
 const withImages = require('next-images');
 const withPlugins = require('next-compose-plugins');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const RtlCssPlugin = require('rtlcss-webpack-plugin');
 const pkg = require('./package.json');
 const findPages = require('./scripts/findPages');
 const markdownRenderer = require('./scripts/markdownRenderer');
@@ -139,7 +140,8 @@ module.exports = withPlugins([[withImages]], {
       new MiniCssExtractPlugin({
         filename: 'static/css/docs.css',
         chunkFilename: 'static/css/[contenthash].css'
-      })
+      }),
+      new RtlCssPlugin('static/css/docs-rtl.css')
     );
 
     config.resolve.alias['@'] = resolveToStaticPath('./');
