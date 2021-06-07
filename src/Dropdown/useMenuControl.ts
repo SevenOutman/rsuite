@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import isNil from 'lodash/isNil';
 import { MenuControlContextProps } from './MenuControlContext';
 
@@ -9,8 +9,15 @@ export default function useMenuControl(
   menuRef: React.MutableRefObject<HTMLUListElement>,
   existingControl?: MenuControlContextProps
 ): MenuControlContextProps {
+  // Whether menu is open/visible
+  const [open, setOpen] = useState(false);
+
   const [items, setItems] = useState<HTMLLIElement[]>([]);
   const [activeItemIndex, setActiveItemIndex] = useState<number | null>(null);
+
+  // When grabbing focus, keep track of previous activeElement
+  // so that we can return focus later
+  const previousActiveElementRef = useRef<HTMLElement | null>(null);
 
   const registerItem = useCallback((item: HTMLLIElement) => {
     setItems(items => [...items, item]);
@@ -19,7 +26,10 @@ export default function useMenuControl(
   // Focus the menu itself
   const focusSelf = useCallback(() => {
     requestAnimationFrame(() => {
-      menuRef.current.focus();
+      if (document.activeElement !== menuRef.current) {
+        previousActiveElementRef.current = document.activeElement as HTMLElement;
+        menuRef.current.focus();
+      }
     });
   }, []);
 
@@ -63,14 +73,29 @@ export default function useMenuControl(
     [items, activeItemIndex, focusItemAt]
   );
 
+  const openMenu = useCallback(() => {
+    setOpen(true);
+    focusSelf();
+  }, [focusSelf]);
+
+  const closeMenu = useCallback(() => {
+    setOpen(false);
+    requestAnimationFrame(() => {
+      previousActiveElementRef.current?.focus();
+    });
+  }, []);
+
   return (
     existingControl ?? {
+      open,
       items,
       activeItemIndex,
       registerItem,
       focusItem,
       focusItemAt,
-      moveItemFocus
+      moveItemFocus,
+      openMenu,
+      closeMenu
     }
   );
 }

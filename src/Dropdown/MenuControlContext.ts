@@ -5,6 +5,10 @@ import React from 'react';
  */
 export interface MenuControlContextProps {
   /**
+   * Whether menu is open/visible
+   */
+  open: boolean;
+  /**
    * Items' DOM elements
    */
   items: HTMLLIElement[];
@@ -29,6 +33,14 @@ export interface MenuControlContextProps {
    * Move focus up/down between items
    */
   moveItemFocus: (delta: number) => void;
+  /**
+   * Open the menu
+   */
+  openMenu: () => void;
+  /**
+   * Close menu and return focus to its context (if exists)
+   */
+  closeMenu: () => void;
 }
 
 const MenuControlContext = React.createContext<MenuControlContextProps | null>(null);
