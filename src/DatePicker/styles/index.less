@@ -54,8 +54,12 @@
     max-width: 100%;
   }
 
+  .rs-calendar-header-title {
+    margin: 0;
+  }
+
   .rs-calendar {
-    width: @calendar-width;
+    min-width: @calendar-width;
     // To make sure <Calendar/> horizontal align at center when toolbar  width is so long.
     display: block;
     margin: 0 auto;

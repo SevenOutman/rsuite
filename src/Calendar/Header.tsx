@@ -57,7 +57,6 @@ const Header: RsRefForwardingComponent<'div', HeaderProps> = React.forwardRef(
     const { locale, date = new Date(), format, inline, disabledDate } = useCalendarContext();
     const { prefix, withClassPrefix, merge } = useClassNames(classPrefix);
     const btnProps: ButtonProps = {
-      appearance: 'subtle',
       size: inline ? 'sm' : 'xs'
     };
 
